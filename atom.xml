@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-05-13T22:26:30.156Z</updated>
+    <updated>2020-05-14T00:24:16.870Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -11,35 +11,25 @@
     <icon>https://luxliu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
     <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://luxliu.github.io/post/hello-gridea/</id>
-        <link href="https://luxliu.github.io/post/hello-gridea/">
+        <title type="html"><![CDATA[What skills should you upgrade when COVID-19 spreads]]></title>
+        <id>https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/</id>
+        <link href="https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/">
         </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+        <updated>2020-05-14T10:44:43.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>This is a special period. Everyone is facing economic recession, salary deduction, even massive unemployment. As an IT people, we have to think about where the future is, and what we should do to prepare for it.</p>
+</blockquote>
+<h3 id="industry-structure-is-changing">Industry structure is changing</h3>
+<p>A lot of industries are changing rapidly because of the pandemic. Especially some population-intensive businesses like some non-essential manufacturing, cinema, bar, and casino. People stay at home and what they need is only the necessities of life. So you can have a think about your industry you are serving and its value chain. How is it  impacted by the virus? Is this impact short-term or long-term? I'm not encouraging you leave your company right now, but just think about it right now.</p>
+<p>Currently, everybody knows only the essential industries are stable. Food, water, power and healthcare, they are necessary for our daily life. However they won't provide many opportunities to us IT practitioners. We have to focus something else. Everything is changing to remote, remote meeting, remote teaching, even remote gym. Meanwhile the online entertainment is booming. The VR and AI technology maybe attract capital again.</p>
+<p>If you are interested in these industries, maybe you can start learn from now.</p>
+<h3 id="scale-your-skills-horizontally">Scale your skills horizontally</h3>
+<p>If you live in a small country, like me, I suggest you should scale your IT skills horizontally.</p>
+<p>Small country usually has more small-medium enterprises(SME), and SME needs employees can do everything. The most important thing to SME is surviving, so do we.</p>
+<p>If you are a front-end developer, then study some back-end skills to become a full-stack developer. If you are an IT supporter, maybe you can consider to learn some coding skills.</p>
+<blockquote>
+<p>The battle is not only about the pandemic, but also the economic recovering. We will win this battle, the question is when.</p>
+</blockquote>
 ]]></content>
     </entry>
 </feed>
