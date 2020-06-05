@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-05-25T06:05:09.513Z</updated>
+    <updated>2020-06-05T05:36:52.582Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -10,6 +10,214 @@
     <logo>https://luxliu.github.io/images/avatar.png</logo>
     <icon>https://luxliu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[How to improve performance in webpack]]></title>
+        <id>https://luxliu.github.io/post/webpack-performance/</id>
+        <link href="https://luxliu.github.io/post/webpack-performance/">
+        </link>
+        <updated>2020-06-02T06:51:27.000Z</updated>
+        <content type="html"><![CDATA[<p>As the front-end side is becoming bigger and more complex, sometimes we have to face to the issue of performance. Briefly, we hope the users will experience our web app as faster as possible. This is about to minimize the request files size and optimize the request order. Let's have a look at how could we do this in webpack.</p>
+<h4 id="1-tree-shaking">1. Tree Shaking</h4>
+<p>As the naming, tree shaking will shake the useless modules even it's claimed in some other files. This will decrease bundle size.</p>
+<p>Let's say I have two functions in <code>math.js</code> file:</p>
+<pre><code class="language-javascript">export const add = (a, b) =&gt; {
+	console.log( a + b );
+}
+
+export const minus = (a, b) =&gt; {
+	console.log( a - b );
+}
+</code></pre>
+<p>And I only import the <code>add</code> function like this:</p>
+<pre><code class="language-javascript">import { add } from './math.js';
+add(1, 2);
+</code></pre>
+<blockquote>
+<p>Note: webpack tree shaking only supports the es6 module <code>import</code>, but doesn't support commonJS <code>require</code>, as the es6 <code>import</code> underlying  implementation is static but <code>requires</code> is  dynamic.</p>
+</blockquote>
+<p>If I have no tree shaking feature here, the bundle will also include the <code>minus</code> function code, which is useless and raise the bundle size.</p>
+<p>How do we config tree shaking in webpack?</p>
+<h5 id="on-development-mode">On development mode:</h5>
+<p>If you need to config for dev mode, make sure you add <code>usedExports</code> within <code>optimization</code> property in your <code>webpack.config.js</code> file like this:</p>
+<pre><code class="language-js">optimization: {
+    usedExports: true
+}
+</code></pre>
+<p>And, in <code>package.json</code> you should add one line just for future convenience:</p>
+<pre><code class="language-json">&quot;sideEffect&quot;: []
+</code></pre>
+<blockquote>
+<p>With this <code>sideEffect</code>, you can add whatever you will let webpack ignores when tree shaking. E.g. you need to <code>import '@babel/polly-fill'</code> in your entry file to do polly-fill job. As you don't use anything of this polly-fill module here, webpack will shake the whole babel/polly-fill module which is not you expect. In this case, you can add this module into the <code>sideEffect</code> array: <code>&quot;sideEffect&quot;: [&quot;@babel/polly-fill&quot;]</code>. Another common example is for <code>import './style.css'</code> and <code>&quot;sideEffect&quot;: [&quot;*.css&quot;]</code>.</p>
+</blockquote>
+<p><strong>However</strong>, if you run webpack to bundle, you will find the output file still includes the useless <code>minus</code> function but one extra comment before it to tell you <strong>&quot;exports provided: add, minus&quot;</strong> and <strong>&quot;exports used: add&quot;</strong>. The reason is that webpack considers remove these tree shaking modules might cause error when you use source map. So <strong>in development mode</strong>, webpack won't really remove the tree shaking modules code.</p>
+<h5 id="on-production-mode">On production mode:</h5>
+<p>Nothing need you to do! Webpack will do it for you by default. Just don't forget to add <code>&quot;sideEffect&quot;: []</code> in your <code>package.json</code> file and add something you prevent from tree shaking.</p>
+<h4 id="2-code-splitting-and-lazy-loading">2. Code splitting and lazy loading</h4>
+<p>I think almost most front-end developers used some utility library like <code>lodash</code>, <code>jquery</code> or <code>ramda</code>. The thing is when a file imports these libraries and use webpack to do the bundling job, the whole bundle size would be pretty big as all these 3rd party libraries are also included in the bundle file. This is not we want!</p>
+<p>Let's say you are using <code>lodash</code> in <code>index.js</code> , and you can create another file called <code>lodash.js</code> to do this:</p>
+<pre><code class="language-js">import _ from 'lodash';
+window._ = _;
+</code></pre>
+<p>And add it as an extra entry file like this:</p>
+<pre><code class="language-js">entry: {
+    lodash: './src/lodash.js',
+    main: './src/index.js'
+}
+</code></pre>
+<p>With this solution, the bundled <code>index.html</code> will import <code>lodash.js</code> as another <code>&lt;script&gt;</code> file. The benefit is that we split business logic code and vendor code in two different files. When the user reload new code, the <code>lodash.js</code> already cached in browser, and this will speed up user experience.</p>
+<blockquote>
+<p>Don't forget to use <strong>[contentHash]</strong> as part of your output files naming, especially in production environment, to prevent caching of browser when code content already changed.</p>
+</blockquote>
+<blockquote>
+<p>This concept is code splitting and doesn't matter with webpack. With webpack we can do it easily and simply.</p>
+</blockquote>
+<p>Just do this in webpack.config.js` file:</p>
+<pre><code class="language-js">optimization: {
+    splitChunks: {
+        chunks: 'all'
+    }
+}
+</code></pre>
+<p>Then you will find webpack does the code splitting for you: you will get one extra bundle file: <code>vendors~main.js</code> which includes the imported libraries.</p>
+<blockquote>
+<p>For more configurations of splitChunks plugin of webpack, you can read its <a href="https://webpack.js.org/plugins/split-chunks-plugin/#root">official documents</a></p>
+</blockquote>
+<p>Actually, lazy loading can't leave code splitting. Image following code:</p>
+<pre><code class="language-js">const getComponent = () =&gt; {
+  return import('lodash').then(({ default: _ }) =&gt; {
+    const element = document.createElement('div');
+    element.innerHTML = _.join(['Lux', 'Liu'], '-');
+    return element;
+  });
+};
+
+document.addEventListener('click', () =&gt; {
+  getComponent().then((element) =&gt; {
+    document.body.appendChild(element);
+  });
+});
+</code></pre>
+<p>And use webpack to bundle project, you should find <code>lodash</code> is bundled in <code>vendors~*.js</code> and the top code is bundled in <code>main.js</code>. Inspect bundled landing page <code>index.html</code> in your browser and open network, you will find only <code>index.html</code> and <code>main.js</code> are requested when you load <code>index.html</code>. Once you click the page, you will see &quot;Lux-Liu&quot; on your page and the <code>vendors~*.js</code> is just requested after you click the page. This is lazy loading and obviously, it will speed up the UX.</p>
+<blockquote>
+<p>Don't forget to use polly-fill or <a href="https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import">@babel/plug-syntax-dynamic-import</a> plugin for this experimental syntax.</p>
+</blockquote>
+<p>Do you remember we have a configuration for code splitting?</p>
+<pre><code class="language-js">optimization: {
+    splitChunks: {
+        chunks: 'all'
+    }
+}
+</code></pre>
+<p>If you have no this configuration, webpack will still do code splitting for you, <strong>but only the dynamic import</strong>.</p>
+<p>Have a look at the <a href="https://babeljs.io/docs/en/babel-plugin-syntax-dynamic-import">default config</a> of splitChunk plugin:</p>
+<pre><code class="language-js">module.exports = {
+  //...
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      minRemainingSize: 0,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 6,
+      maxInitialRequests: 4,
+      automaticNameDelimiter: '~',
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  }
+};
+</code></pre>
+<p>By default, the <code>chunks</code> has a <code>async</code> value, which indicates <strong>webpack encourage us to use this lazy loading/dynamic import</strong>.</p>
+<h4 id="3-bundle-analyse-preloading-and-prefetching">3. Bundle analyse, preloading and prefetching</h4>
+<p>In the real practice, we usually use <a href="https://github.com/webpack/analyse">webpack analyse</a> to do the bundle analysis job.</p>
+<p>The process is pretty straight forward and simple:</p>
+<ul>
+<li>Run <code>webpack --profile --json &gt; stats.json</code> , which also can be combined in your build script, like <code>&quot;dev-build&quot;: &quot;webpack --profile --json &gt; stats.json --config &lt;your_conf_file_path&gt;&quot;</code>;</li>
+<li>Then you will get one <code>stats.json</code> file in the root directory;</li>
+<li>Use it on http://webpack.github.io/analyse/. Webpack will tell you everything about this bundling, especially the chunks and modules dependency relationships;</li>
+</ul>
+<p>This is the official analyse tool, you also have some <a href="http://webpack.github.io/analyse/">other options</a>. Personally, I prefer <a href="https://github.com/webpack-contrib/webpack-bundle-analyzer">webpack bundle analyzer</a>, which will give a clear and intuitional map like this:</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/luxliu/Picbed_picGo/master/webpack/webpack-bundle-analyzer.png" alt="" loading="lazy"></figure>
+<p>Now, let's back to the previous example:</p>
+<pre><code class="language-js">const getComponent = () =&gt; {
+  return import('lodash').then(({ default: _ }) =&gt; {
+    const element = document.createElement('div');
+    element.innerHTML = _.join(['Lux', 'Liu'], '-');
+    return element;
+  });
+};
+
+document.addEventListener('click', () =&gt; {
+  getComponent().then((element) =&gt; {
+    document.body.appendChild(element);
+  });
+});
+</code></pre>
+<p>Normally, when we define a click event we will write like this instead of the top one in the <code>index.js</code> file:</p>
+<pre><code class="language-js">document.addEventListener('click', () =&gt; {
+   const element = document.createElement('div');
+   element.innerHTML = _.join(['Lux', 'Liu'], '-');
+   document.body.appendChild(element);
+});
+</code></pre>
+<p>It's pretty simple and good enough, right? Is there any place to optimize?</p>
+<p>Bundle this app and inspect <code>index.html</code> in browser, for chrome, open the dev tool. Press <kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd>, and input <strong>coverage</strong> then choose <strong>show coverage</strong>, you should get a new dev window open similar with this:</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/luxliu/Picbed_PicGo/master/webpack/coverage.png" alt="" loading="lazy"></figure>
+<p>This coverage window tells you how much the code is used on this page for all requested files right now. The red bar is unused part and blue bar is used part on this page. If we wanna improve performance, we should minimize the red part.</p>
+<p>How to do this in our code?</p>
+<p>The main idea is to use dynamic/async import to split unused logic:</p>
+<ol>
+<li>
+<p>create a <code>click.js</code> file:</p>
+<pre><code class="language-js">const handleClick = () =&gt; {
+    const element = document.createElement('div');
+    element.innerHTML = 'Lux Liu';
+    document.body.appendChild(element);
+}
+
+export default handleClick;
+</code></pre>
+</li>
+<li>
+<p>Dynamically import and use it in <code>index.js</code> file:</p>
+<pre><code class="language-js">document.addEventListener('click', () =&gt; {
+   import('./click.js').then(({default: func})=&gt;{
+       func();
+   })
+});
+</code></pre>
+</li>
+</ol>
+<p>Obviously, webpack will split the async import code in different file. This means we implement the lazy loading, and the coverage of <code>main.js</code> will increase as the logic code decreases. Finally, the performance will be improved. That's why I said webpack encourages developers to write more dynamic import code.</p>
+<p>However, we still have a problem: let's say we use this approach to implement an app which has a sign in/sign up popup modal. With this approach, this modal module won't be requested on the landing page until the user clicks a button to tell modal to popup.</p>
+<p>The question is: how would we handle the gap issue between click and modal module request finishes?</p>
+<p>The ideal solution for this problem should be like this: when the landing page code files requests finish, and the network resource is released, could we let browser request the sign in/sign up modal code file quietly?</p>
+<p><a href="https://webpack.js.org/guides/code-splitting/#prefetchingpreloading-modules">Prefetching/Preloading</a> can do this for us.</p>
+<p>It's very straight forward: add a magic comment when you import the splitting module:</p>
+<pre><code class="language-js">document.addEventListener('click', () =&gt; {
+   import(/* webpackPrefetch: true */ './click.js').then(({default: func})=&gt;{
+       func();
+   })
+});
+</code></pre>
+<blockquote>
+<p>A preloaded chunk starts loading in parallel to the parent chunk. A prefetched chunk starts after the parent chunk finishes loading</p>
+</blockquote>
+<p>Personally I prefer prefetch than preload.</p>
+<h4 id="4-code-coverage-caching">4. Code coverage &gt; caching</h4>
+<p>Usually when we talk about the performance of a web app, we are not talking the caching but the first UX performance, which means we are talking the bundle size and files request order.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Use webpack to bundle styling files]]></title>
         <id>https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/</id>
