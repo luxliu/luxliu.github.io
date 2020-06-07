@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-06-05T05:36:52.582Z</updated>
+    <updated>2020-06-07T10:45:32.620Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -15,7 +15,7 @@
         <id>https://luxliu.github.io/post/webpack-performance/</id>
         <link href="https://luxliu.github.io/post/webpack-performance/">
         </link>
-        <updated>2020-06-02T06:51:27.000Z</updated>
+        <updated>2020-05-27T10:51:27.000Z</updated>
         <content type="html"><![CDATA[<p>As the front-end side is becoming bigger and more complex, sometimes we have to face to the issue of performance. Briefly, we hope the users will experience our web app as faster as possible. This is about to minimize the request files size and optimize the request order. Let's have a look at how could we do this in webpack.</p>
 <h4 id="1-tree-shaking">1. Tree Shaking</h4>
 <p>As the naming, tree shaking will shake the useless modules even it's claimed in some other files. This will decrease bundle size.</p>
@@ -219,161 +219,11 @@ export default handleClick;
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Use webpack to bundle styling files]]></title>
-        <id>https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/</id>
-        <link href="https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/">
-        </link>
-        <updated>2020-05-25T22:01:35.000Z</updated>
-        <content type="html"><![CDATA[<p>As a popular bundling tool, webpack has a lot of configurations to learn. It's impossible to know everything about the loaders/plugins and their configurations, but we need to know some general configs for normal files, like  <code>.css</code> or <code>.scss</code>.</p>
-<h4 id="1-clone-repo-and-init">1. Clone repo and init</h4>
-<p>First, you need clone the <a href="https://github.com/luxliu/webpack-bundle-style-files">demo project</a> for this article from git, and run <code>npm i</code> in the root directory. This will install necessary packages: <code>webpack</code>, <code>webpack-cli</code>, <code>file-loader</code> and <code>url-loader</code>.</p>
-<p>Let's have a look this project from top to bottom:</p>
-<p><code>dist</code> folder: this is the bundle output place, right now there is only one <code>index.html</code> inside.</p>
-<p>Dive in this <code>index.html</code>, you can see a <code>&lt;div&gt;</code> with <strong>root</strong> id and a <code>./bundle.js</code> imported.</p>
-<p><code>src/index.js</code>: the logic inside is pretty straight forward. Just import an image named <strong>avatar.jpg</strong> and append it into the <code>&lt;div&gt;</code> with <strong>root</strong> id in <code>dist/index.html</code>.</p>
-<p><code>webpack.config.js</code>: this file is the configuration file for webpack and uses <strong>commonJS</strong> module management convention to export configuration object. The naming <strong>webpack.config.js</strong> is the default value. You can change it to any other names, but then when you run <code>weboack</code> you need to add a suffix: <code>--config &lt;your-config-file-name&gt;</code>.</p>
-<p>In this project, I will use an image to display how to add loaders for <code>.css</code> and <code>.sass</code>. That means I need use a appropriate loader to handle <code>.jpg</code> file. I use <code>url-loader</code> here.</p>
-<blockquote>
-<p><strong><a href="https://webpack.js.org/loaders/url-loader/">url-loader</a></strong>: this loader will encode image file content to base64 url and insert it to the <code>src</code> of <code>&lt;img&gt;</code>. However, this will cause a unfriendly UX when the image is too big. I used <strong>limit</strong> to handle this case: if the size is bigger than 10240 bytes, <strong>url-loader</strong> will handle the image like <strong>file-loader</strong>, which moves the image file to output folder directly.</p>
-</blockquote>
-<p>Right now you can in the cli to run <code>npm run bundle</code>, then image and <code>bundle.js</code> will appear in the <kbd>dist</kbd>folder. You can open <code>index.html</code> in browser, and you should see the avatar image there.</p>
-<h4 id="2-bundle-css-and-scss-file">2. Bundle <code>.css</code> and <code>.scss</code> file</h4>
-<p>First, create <code>index.css</code> file under <kbd>src</kbd> folder, and write some styling code:</p>
-<pre><code class="language-css">.avatar {
-  width: 150px;
-  height: 150px;
-}
-</code></pre>
-<p>Now, we have the <code>.css</code> file, we need to use it in <code>index.js</code>. Import the css file and add a class name to the image DOM:</p>
-<pre><code class="language-js">...
-import './index.css';
-...
-img.classList.add('avatar');
-...
-</code></pre>
-<p>The logic part is already finished. We need tell webpack how to bundle <code>.css</code> file. Install two loaders: <code>npm i style-loader css-loader -D</code> and add a new rule in <code>weboack.config.js</code>:</p>
-<pre><code class="language-javascript">{
-   test: /\.css$/,
-   use: ['style-loader', 'css-loader'],
-}
-</code></pre>
-<p>The rule is pretty simple: if the file has <code>.css</code> extension, webpack will use <code>css-loader</code> to handle the importing relationship between all <code>.css</code> files <strong>first</strong>, then use <code>style-loader</code> to insert these styling code to <code>&lt;style&gt;</code> tag of <code>index.html</code>.</p>
-<blockquote>
-<p>When use multiple loaders in one rule, webpack will use them from bottom to top, from right to left.</p>
-</blockquote>
-<p>You can run <code>npm run bundle</code> and check <code>index.html</code> in browser right now. The image should be smaller and inspect the html in dev tool of browser, the css styling code should be placed in a <code>&lt;style&gt;</code> in <code>&lt;head&gt;</code>.</p>
-<p>Next, we can just change a little bit and bundle the <code>.scss</code> file.</p>
-<p>Modify the <code>index.css</code> to <code>index.scss</code>, then replace the code with following content:</p>
-<pre><code class="language-scss">body {
-  .avatar {
-    width: 150px;
-    height: 150px;
-  }
-}
-</code></pre>
-<p>Don't forget to change importing <code>index.css</code> to <code>index.scss</code> in <code>index.js</code> top.</p>
-<p>Then install <code>sass-laoder</code> : <code>npm i sass-loader node-sass -D</code>. Modify the rule in <code>webpack.config.js</code> like this:</p>
-<pre><code class="language-javascript"> {
-   test: /\.scss$/,
-   use: ['style-loader', 'css-loader', 'sass-loader'],
- }
-</code></pre>
-<p>You can run bundle command and test <code>index.html</code> in your browser.</p>
-<h4 id="3-postcss-and-autoprefixer">3. PostCSS and Autoprefixer</h4>
-<p>Sometimes we need add the prefix for different browser engines, like <code>-webkit-</code>, <code>-ms-</code> and <code>-o-</code>, for some css3 properties. We can use <a href="https://webpack.js.org/loaders/postcss-loader/">postcss-loader</a> and its plugin <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a> to ignore this kind of inconvenience.</p>
-<blockquote>
-<p><a href="https://github.com/postcss/postcss">PostCSS</a> plugin to parse CSS and add vendor prefixes to CSS rules using values from <a href="https://caniuse.com/">Can I Use</a>. It is <a href="https://developers.google.com/web/tools/setup/setup-buildtools#dont_trip_up_with_vendor_prefixes">recommended</a> by Google and used in Twitter and Alibaba.</p>
-</blockquote>
-<p>First, install <code>npm i postcss-loader autoprefixer -D</code>. Then add <code>postcss-loader</code> in <code>.scss</code> rule of <code>webpack.config.js</code>.</p>
-<pre><code class="language-javascript">{
-  test: /\.scss$/,
-  use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
-}
-</code></pre>
-<p>Add a config file <code>postcss.config.js</code> in root directory, and write following code:</p>
-<pre><code class="language-js">module.exports = {
-  plugins: [
-  	require('autoprefixer')
-  ]
-}
-</code></pre>
-<p>Add a css3 property for <code>.avatar</code> in <code>index.scss</code>:</p>
-<pre><code class="language-css">transform: rotate(20deg);
-</code></pre>
-<p>Don't forget tell <strong>Autoprefixer</strong> what the target browsers of this project, add this in your <code>package.json</code> file:</p>
-<pre><code class="language-json">&quot;browserslist&quot;: [
-   &quot;last 2 versions&quot;
-]
-</code></pre>
-<p>At last, run <code>npm run bundle</code> and inspect in browser, you will find for <code>.avatar</code> image, the styling will be like this:</p>
-<pre><code class="language-css">width: 150px;
-height: 150px;
--webkit-transform: rotate(20deg);
-transform: rotate(20deg);
-</code></pre>
-<h4 id="4-css-module">4. CSS module</h4>
-<p>Let's create a new file <code>createAvatar.js</code> in <kbd>src</kbd> folder, then copy exactly same code from <code>index.js</code>. Paste it into a function ``createAvatar` and export this function:</p>
-<pre><code class="language-js">import avatar from './avatar.jpg';
-
-export default () =&gt; {
-  var img = new Image();
-  img.src = avatar;
-  img.classList.add('avatar');
-
-  var root = document.getElementById('root');
-  root.append(img);
-};
-</code></pre>
-<p>Then we import and call this function in <code>index.js</code>:</p>
-<pre><code class="language-js">import avatar from './avatar.jpg';
-import './index.scss';
-import createAvatar from './createAvatar';
-
-createAvatar();
-
-var img = new Image();
-img.src = avatar;
-img.classList.add('avatar');
-
-var root = document.getElementById('root');
-root.append(img);
-</code></pre>
-<p>Let's bundle and have a look at the <code>index.html</code> in browser.</p>
-<p>Of course you will get 2 exactly same images.</p>
-<p>Find any issue with this? You imported <code>createAvatar</code> in <code>index.js</code> and only import <code>index.scss</code> once in <code>index.js</code> but the styling will apply to global! This is not good as when you modify the style of one module, may modify other modules as well.</p>
-<p>That's why we need css module.</p>
-<p>With webpack, it's really easy to implement css module.</p>
-<p>First, add an option for <code>css-loader</code>:</p>
-<pre><code class="language-js">{
-  test: /\.scss$/,
-  use: [
-     'style-loader',
-     {
-       loader: 'css-loader',
-       options: {
-           modules: true,
-       },
-      },
-      'postcss-loader',
-      'sass-loader',
-  ],
-}
-</code></pre>
-<p>Then, modify the importing and logic code in <code>index.js</code> like this:</p>
-<pre><code class="language-js">...
-import style from './index.scss';
-...
-img.classList.add(style.avatar);
-</code></pre>
-<p>Re-bundle and you will see the first image has no any style but the second one gets styles as we expected.</p>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Use CircleCI to implement CI/CD and deploy to AWS S3]]></title>
         <id>https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/</id>
         <link href="https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/">
         </link>
-        <updated>2020-05-16T17:31:44.000Z</updated>
+        <updated>2020-04-07T21:31:44.000Z</updated>
         <content type="html"><![CDATA[<h3 id="some-important-concepts-before-we-start">Some important concepts before we start</h3>
 <h4 id="1-cicd">1. CI/CD</h4>
 <p>During the development of a project, developers will commit and push code to the main branch of a shared repository frequently. Of course, before commit/push, we usually need to run tests and check code style to insure the new code could integrate with existing code very well.</p>
@@ -616,7 +466,7 @@ workflows:
         <id>https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/</id>
         <link href="https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/">
         </link>
-        <updated>2020-05-14T14:44:43.000Z</updated>
+        <updated>2020-03-28T18:44:43.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
 <p>This is a special period. Everyone is facing economic recession, salary deduction, even massive unemployment. As an IT people, we have to think about where the future is, and what we should do to prepare for it.</p>
 </blockquote>
@@ -631,6 +481,156 @@ workflows:
 <blockquote>
 <p>The battle is not only about the pandemic, but also the economic recovering. We will win this battle, the question is when.</p>
 </blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Use webpack to bundle styling files]]></title>
+        <id>https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/</id>
+        <link href="https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/">
+        </link>
+        <updated>2020-03-17T02:01:35.000Z</updated>
+        <content type="html"><![CDATA[<p>As a popular bundling tool, webpack has a lot of configurations to learn. It's impossible to know everything about the loaders/plugins and their configurations, but we need to know some general configs for normal files, like  <code>.css</code> or <code>.scss</code>.</p>
+<h4 id="1-clone-repo-and-init">1. Clone repo and init</h4>
+<p>First, you need clone the <a href="https://github.com/luxliu/webpack-bundle-style-files">demo project</a> for this article from git, and run <code>npm i</code> in the root directory. This will install necessary packages: <code>webpack</code>, <code>webpack-cli</code>, <code>file-loader</code> and <code>url-loader</code>.</p>
+<p>Let's have a look this project from top to bottom:</p>
+<p><code>dist</code> folder: this is the bundle output place, right now there is only one <code>index.html</code> inside.</p>
+<p>Dive in this <code>index.html</code>, you can see a <code>&lt;div&gt;</code> with <strong>root</strong> id and a <code>./bundle.js</code> imported.</p>
+<p><code>src/index.js</code>: the logic inside is pretty straight forward. Just import an image named <strong>avatar.jpg</strong> and append it into the <code>&lt;div&gt;</code> with <strong>root</strong> id in <code>dist/index.html</code>.</p>
+<p><code>webpack.config.js</code>: this file is the configuration file for webpack and uses <strong>commonJS</strong> module management convention to export configuration object. The naming <strong>webpack.config.js</strong> is the default value. You can change it to any other names, but then when you run <code>weboack</code> you need to add a suffix: <code>--config &lt;your-config-file-name&gt;</code>.</p>
+<p>In this project, I will use an image to display how to add loaders for <code>.css</code> and <code>.sass</code>. That means I need use a appropriate loader to handle <code>.jpg</code> file. I use <code>url-loader</code> here.</p>
+<blockquote>
+<p><strong><a href="https://webpack.js.org/loaders/url-loader/">url-loader</a></strong>: this loader will encode image file content to base64 url and insert it to the <code>src</code> of <code>&lt;img&gt;</code>. However, this will cause a unfriendly UX when the image is too big. I used <strong>limit</strong> to handle this case: if the size is bigger than 10240 bytes, <strong>url-loader</strong> will handle the image like <strong>file-loader</strong>, which moves the image file to output folder directly.</p>
+</blockquote>
+<p>Right now you can in the cli to run <code>npm run bundle</code>, then image and <code>bundle.js</code> will appear in the <kbd>dist</kbd>folder. You can open <code>index.html</code> in browser, and you should see the avatar image there.</p>
+<h4 id="2-bundle-css-and-scss-file">2. Bundle <code>.css</code> and <code>.scss</code> file</h4>
+<p>First, create <code>index.css</code> file under <kbd>src</kbd> folder, and write some styling code:</p>
+<pre><code class="language-css">.avatar {
+  width: 150px;
+  height: 150px;
+}
+</code></pre>
+<p>Now, we have the <code>.css</code> file, we need to use it in <code>index.js</code>. Import the css file and add a class name to the image DOM:</p>
+<pre><code class="language-js">...
+import './index.css';
+...
+img.classList.add('avatar');
+...
+</code></pre>
+<p>The logic part is already finished. We need tell webpack how to bundle <code>.css</code> file. Install two loaders: <code>npm i style-loader css-loader -D</code> and add a new rule in <code>weboack.config.js</code>:</p>
+<pre><code class="language-javascript">{
+   test: /\.css$/,
+   use: ['style-loader', 'css-loader'],
+}
+</code></pre>
+<p>The rule is pretty simple: if the file has <code>.css</code> extension, webpack will use <code>css-loader</code> to handle the importing relationship between all <code>.css</code> files <strong>first</strong>, then use <code>style-loader</code> to insert these styling code to <code>&lt;style&gt;</code> tag of <code>index.html</code>.</p>
+<blockquote>
+<p>When use multiple loaders in one rule, webpack will use them from bottom to top, from right to left.</p>
+</blockquote>
+<p>You can run <code>npm run bundle</code> and check <code>index.html</code> in browser right now. The image should be smaller and inspect the html in dev tool of browser, the css styling code should be placed in a <code>&lt;style&gt;</code> in <code>&lt;head&gt;</code>.</p>
+<p>Next, we can just change a little bit and bundle the <code>.scss</code> file.</p>
+<p>Modify the <code>index.css</code> to <code>index.scss</code>, then replace the code with following content:</p>
+<pre><code class="language-scss">body {
+  .avatar {
+    width: 150px;
+    height: 150px;
+  }
+}
+</code></pre>
+<p>Don't forget to change importing <code>index.css</code> to <code>index.scss</code> in <code>index.js</code> top.</p>
+<p>Then install <code>sass-laoder</code> : <code>npm i sass-loader node-sass -D</code>. Modify the rule in <code>webpack.config.js</code> like this:</p>
+<pre><code class="language-javascript"> {
+   test: /\.scss$/,
+   use: ['style-loader', 'css-loader', 'sass-loader'],
+ }
+</code></pre>
+<p>You can run bundle command and test <code>index.html</code> in your browser.</p>
+<h4 id="3-postcss-and-autoprefixer">3. PostCSS and Autoprefixer</h4>
+<p>Sometimes we need add the prefix for different browser engines, like <code>-webkit-</code>, <code>-ms-</code> and <code>-o-</code>, for some css3 properties. We can use <a href="https://webpack.js.org/loaders/postcss-loader/">postcss-loader</a> and its plugin <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a> to ignore this kind of inconvenience.</p>
+<blockquote>
+<p><a href="https://github.com/postcss/postcss">PostCSS</a> plugin to parse CSS and add vendor prefixes to CSS rules using values from <a href="https://caniuse.com/">Can I Use</a>. It is <a href="https://developers.google.com/web/tools/setup/setup-buildtools#dont_trip_up_with_vendor_prefixes">recommended</a> by Google and used in Twitter and Alibaba.</p>
+</blockquote>
+<p>First, install <code>npm i postcss-loader autoprefixer -D</code>. Then add <code>postcss-loader</code> in <code>.scss</code> rule of <code>webpack.config.js</code>.</p>
+<pre><code class="language-javascript">{
+  test: /\.scss$/,
+  use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+}
+</code></pre>
+<p>Add a config file <code>postcss.config.js</code> in root directory, and write following code:</p>
+<pre><code class="language-js">module.exports = {
+  plugins: [
+  	require('autoprefixer')
+  ]
+}
+</code></pre>
+<p>Add a css3 property for <code>.avatar</code> in <code>index.scss</code>:</p>
+<pre><code class="language-css">transform: rotate(20deg);
+</code></pre>
+<p>Don't forget tell <strong>Autoprefixer</strong> what the target browsers of this project, add this in your <code>package.json</code> file:</p>
+<pre><code class="language-json">&quot;browserslist&quot;: [
+   &quot;last 2 versions&quot;
+]
+</code></pre>
+<p>At last, run <code>npm run bundle</code> and inspect in browser, you will find for <code>.avatar</code> image, the styling will be like this:</p>
+<pre><code class="language-css">width: 150px;
+height: 150px;
+-webkit-transform: rotate(20deg);
+transform: rotate(20deg);
+</code></pre>
+<h4 id="4-css-module">4. CSS module</h4>
+<p>Let's create a new file <code>createAvatar.js</code> in <kbd>src</kbd> folder, then copy exactly same code from <code>index.js</code>. Paste it into a function ``createAvatar` and export this function:</p>
+<pre><code class="language-js">import avatar from './avatar.jpg';
+
+export default () =&gt; {
+  var img = new Image();
+  img.src = avatar;
+  img.classList.add('avatar');
+
+  var root = document.getElementById('root');
+  root.append(img);
+};
+</code></pre>
+<p>Then we import and call this function in <code>index.js</code>:</p>
+<pre><code class="language-js">import avatar from './avatar.jpg';
+import './index.scss';
+import createAvatar from './createAvatar';
+
+createAvatar();
+
+var img = new Image();
+img.src = avatar;
+img.classList.add('avatar');
+
+var root = document.getElementById('root');
+root.append(img);
+</code></pre>
+<p>Let's bundle and have a look at the <code>index.html</code> in browser.</p>
+<p>Of course you will get 2 exactly same images.</p>
+<p>Find any issue with this? You imported <code>createAvatar</code> in <code>index.js</code> and only import <code>index.scss</code> once in <code>index.js</code> but the styling will apply to global! This is not good as when you modify the style of one module, may modify other modules as well.</p>
+<p>That's why we need css module.</p>
+<p>With webpack, it's really easy to implement css module.</p>
+<p>First, add an option for <code>css-loader</code>:</p>
+<pre><code class="language-js">{
+  test: /\.scss$/,
+  use: [
+     'style-loader',
+     {
+       loader: 'css-loader',
+       options: {
+           modules: true,
+       },
+      },
+      'postcss-loader',
+      'sass-loader',
+  ],
+}
+</code></pre>
+<p>Then, modify the importing and logic code in <code>index.js</code> like this:</p>
+<pre><code class="language-js">...
+import style from './index.scss';
+...
+img.classList.add(style.avatar);
+</code></pre>
+<p>Re-bundle and you will see the first image has no any style but the second one gets styles as we expected.</p>
 ]]></content>
     </entry>
 </feed>
