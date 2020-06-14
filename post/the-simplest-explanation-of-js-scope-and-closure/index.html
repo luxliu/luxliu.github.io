@@ -178,7 +178,7 @@
                 <div class="row">
                     <div class="col-md-12 animate-box post-content">
                         <p> <p>As a more functional programming styled language, JavaScript has a simpler variable scope than some other object-oriented  styled language, like C# and Java.</p>
-<h5 id="1-variable-scope">1. Variable scope</h5>
+<h2 id="1-variable-scope">1. Variable scope</h2>
 <p>Before ES6, we only have 2 scopes for variables: global scope and function scope. In ES6, we also have an extra scope: block scope.</p>
 <pre><code class="language-javascript">const globalVar = 'globalVar'; // global scope
 function func() {
@@ -218,7 +218,7 @@ console.log(result); // 6
 </code></pre>
 <p>My question is, the <code>func</code> is already invoked and return the function <code>childFunc</code> to <code>sum</code>, and when <code>sum</code> is invoked, we can get the correct result 6, which means in <code>childFunc</code> still can access the <code>funcVarA</code> from <code>func</code> even <code>func</code> was executed before.</p>
 <p>This JavaScript feature is called CLOSURE.</p>
-<h5 id="2-closure">2. Closure</h5>
+<h2 id="2-closure">2. Closure</h2>
 <p>Don't be scared be this naming, it's very simple: it's a feature of JavaScript that when you invoke a function, you can still access its outside-scope variables <strong>when it is defined</strong>, like a ***&quot;closed bundle&quot;***.</p>
 <blockquote>
 <p>Free variable: a variable that is used in a function but is not local or parameters of that function.</p>
@@ -305,20 +305,8 @@ print(fn);
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
 <li><a href="#1-variable-scope">1. Variable scope</a></li>
 <li><a href="#2-closure">2. Closure</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

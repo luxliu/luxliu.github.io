@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-06-14T10:03:57.196Z</updated>
+    <updated>2020-06-14T10:40:11.788Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -15,9 +15,9 @@
         <id>https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/</id>
         <link href="https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/">
         </link>
-        <updated>2020-06-14T18:02:00.000Z</updated>
+        <updated>2020-06-15T06:02:00.000Z</updated>
         <content type="html"><![CDATA[<p>As a more functional programming styled language, JavaScript has a simpler variable scope than some other object-oriented  styled language, like C# and Java.</p>
-<h5 id="1-variable-scope">1. Variable scope</h5>
+<h2 id="1-variable-scope">1. Variable scope</h2>
 <p>Before ES6, we only have 2 scopes for variables: global scope and function scope. In ES6, we also have an extra scope: block scope.</p>
 <pre><code class="language-javascript">const globalVar = 'globalVar'; // global scope
 function func() {
@@ -57,7 +57,7 @@ console.log(result); // 6
 </code></pre>
 <p>My question is, the <code>func</code> is already invoked and return the function <code>childFunc</code> to <code>sum</code>, and when <code>sum</code> is invoked, we can get the correct result 6, which means in <code>childFunc</code> still can access the <code>funcVarA</code> from <code>func</code> even <code>func</code> was executed before.</p>
 <p>This JavaScript feature is called CLOSURE.</p>
-<h5 id="2-closure">2. Closure</h5>
+<h2 id="2-closure">2. Closure</h2>
 <p>Don't be scared be this naming, it's very simple: it's a feature of JavaScript that when you invoke a function, you can still access its outside-scope variables <strong>when it is defined</strong>, like a ***&quot;closed bundle&quot;***.</p>
 <blockquote>
 <p>Free variable: a variable that is used in a function but is not local or parameters of that function.</p>
