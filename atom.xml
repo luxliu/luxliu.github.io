@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-06-07T10:45:32.620Z</updated>
+    <updated>2020-06-14T10:03:57.196Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -10,6 +10,94 @@
     <logo>https://luxliu.github.io/images/avatar.png</logo>
     <icon>https://luxliu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[The simplest explanation of JS scope and closure]]></title>
+        <id>https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/</id>
+        <link href="https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/">
+        </link>
+        <updated>2020-06-14T18:02:00.000Z</updated>
+        <content type="html"><![CDATA[<p>As a more functional programming styled language, JavaScript has a simpler variable scope than some other object-oriented  styled language, like C# and Java.</p>
+<h5 id="1-variable-scope">1. Variable scope</h5>
+<p>Before ES6, we only have 2 scopes for variables: global scope and function scope. In ES6, we also have an extra scope: block scope.</p>
+<pre><code class="language-javascript">const globalVar = 'globalVar'; // global scope
+function func() {
+    const funcVarA = 'funcVarA'; // func scope
+    console.log(`${globalVar} ${funcVarA}`); 
+}
+
+console.log(funcVarA); // undefined
+console.log(result); // undefined
+func(); // 'globalVar funcVarA'
+</code></pre>
+<p>Very simple, right? It's similar with most other language:</p>
+<ol>
+<li>The function scope variables can't be accessed out of the function, but a global variable can be used by any functions</li>
+<li>in a nested functions structure, the child function has the access of variables in its parent function(s), but a parent function can't access the variables in any of its children functions.</li>
+</ol>
+<blockquote>
+<p>Note: when <code>func</code> is invoked, the <code>funcVarA</code> will be collected from memory.</p>
+</blockquote>
+<p>The question is, if my code is like this:</p>
+<pre><code class="language-js">function func() {
+    const funcVarA = [1,2,3]; // func scope
+    return function childFunc() {
+        let result = 0; // func scope
+        for(let i=0; i &lt; funcVarA.length; i++) { // i is in block scope
+            result += funcVarA[i];
+        }
+        
+        return result;
+    }
+}
+
+const sum = func(); // func is already invoked
+const result = sum();
+
+console.log(result); // 6
+</code></pre>
+<p>My question is, the <code>func</code> is already invoked and return the function <code>childFunc</code> to <code>sum</code>, and when <code>sum</code> is invoked, we can get the correct result 6, which means in <code>childFunc</code> still can access the <code>funcVarA</code> from <code>func</code> even <code>func</code> was executed before.</p>
+<p>This JavaScript feature is called CLOSURE.</p>
+<h5 id="2-closure">2. Closure</h5>
+<p>Don't be scared be this naming, it's very simple: it's a feature of JavaScript that when you invoke a function, you can still access its outside-scope variables <strong>when it is defined</strong>, like a ***&quot;closed bundle&quot;***.</p>
+<blockquote>
+<p>Free variable: a variable that is used in a function but is not local or parameters of that function.</p>
+</blockquote>
+<p>Usually, closure will happen for two scenarios:</p>
+<ol>
+<li>
+<p>function is returned as a result. We can simplify above code like this:</p>
+<pre><code class="language-js">function create() {
+    const a = 100;
+    return function () {
+        console.log(a);
+    }
+}
+const fn = create();
+const a = 200;
+fn();
+</code></pre>
+<p>Q: What's the printing result?</p>
+<p>A: 100.</p>
+</li>
+<li>
+<p>function is passed as a parameter:</p>
+<pre><code class="language-js">function print(fn) {
+    const a = 200;
+    fn();
+}
+const a = 100;
+function fn() {
+    console.log(a)
+}
+print(fn);
+</code></pre>
+<p>Q: What's the printing result?</p>
+<p>A: 100.</p>
+</li>
+</ol>
+<p>The conclusion is very obvious: <code>a</code> is a free variable, with closure feature, complier will follow the scope chain to search <code>a</code> in the place where the function is defined, <strong>NOT</strong> where the function is invoked.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How to improve performance in webpack]]></title>
         <id>https://luxliu.github.io/post/webpack-performance/</id>

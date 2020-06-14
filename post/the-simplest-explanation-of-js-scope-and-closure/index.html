@@ -153,31 +153,125 @@
         <article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
             <figure class="animate-box">
                 
+                    <img src="https://luxliu.github.io/post-images/the-simplest-explanation-of-js-scope-and-closure.jpg" alt="The simplest explanation of JS scope and closure" class="img-responsive">
+                
             </figure>
             <span class="fh5co-meta animate-box">
                 
+                    <div class="tag-container">
+                        
+                            <a href="https://luxliu.github.io/tag/2vNKS4OOD/" class="tag">JavaScript, </a>
+                        
+                            <a href="https://luxliu.github.io/tag/I2nhd0xXh/" class="tag">Basic, </a>
+                        
+                    </div>
+                
             </span>
-            <h2 class="fh5co-article-title animate-box">About</h2>
+            <h2 class="fh5co-article-title animate-box">The simplest explanation of JS scope and closure</h2>
             <ol class="breadcrumb fh5co-meta fh5co-date animate-box" style="margin-bottom:0; background-color:#f8f9fa">
-                <li>2019-01-26</li>
-                <li>10字</li>
-                <li>1 min read</li>
+                <li>2020-06-15</li>
+                <li>437字</li>
+                <li>3 min read</li>
             </ol>
 
             <div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
                 <div class="row">
                     <div class="col-md-12 animate-box post-content">
-                        <p> <blockquote>
-<p>Welcome to my blog!🤝</p>
+                        <p> <p>As a more functional programming styled language, JavaScript has a simpler variable scope than some other object-oriented  styled language, like C# and Java.</p>
+<h5 id="1-variable-scope">1. Variable scope</h5>
+<p>Before ES6, we only have 2 scopes for variables: global scope and function scope. In ES6, we also have an extra scope: block scope.</p>
+<pre><code class="language-javascript">const globalVar = 'globalVar'; // global scope
+function func() {
+    const funcVarA = 'funcVarA'; // func scope
+    console.log(`${globalVar} ${funcVarA}`); 
+}
+
+console.log(funcVarA); // undefined
+console.log(result); // undefined
+func(); // 'globalVar funcVarA'
+</code></pre>
+<p>Very simple, right? It's similar with most other language:</p>
+<ol>
+<li>The function scope variables can't be accessed out of the function, but a global variable can be used by any functions</li>
+<li>in a nested functions structure, the child function has the access of variables in its parent function(s), but a parent function can't access the variables in any of its children functions.</li>
+</ol>
+<blockquote>
+<p>Note: when <code>func</code> is invoked, the <code>funcVarA</code> will be collected from memory.</p>
 </blockquote>
-<h2 id="a-boardgame-fun">⛹ A boardgame fun</h2>
-<h2 id="luxliu007168gmailcom">📬 luxliu007168@gmail.com</h2>
+<p>The question is, if my code is like this:</p>
+<pre><code class="language-js">function func() {
+    const funcVarA = [1,2,3]; // func scope
+    return function childFunc() {
+        let result = 0; // func scope
+        for(let i=0; i &lt; funcVarA.length; i++) { // i is in block scope
+            result += funcVarA[i];
+        }
+        
+        return result;
+    }
+}
+
+const sum = func(); // func is already invoked
+const result = sum();
+
+console.log(result); // 6
+</code></pre>
+<p>My question is, the <code>func</code> is already invoked and return the function <code>childFunc</code> to <code>sum</code>, and when <code>sum</code> is invoked, we can get the correct result 6, which means in <code>childFunc</code> still can access the <code>funcVarA</code> from <code>func</code> even <code>func</code> was executed before.</p>
+<p>This JavaScript feature is called CLOSURE.</p>
+<h5 id="2-closure">2. Closure</h5>
+<p>Don't be scared be this naming, it's very simple: it's a feature of JavaScript that when you invoke a function, you can still access its outside-scope variables <strong>when it is defined</strong>, like a ***&quot;closed bundle&quot;***.</p>
+<blockquote>
+<p>Free variable: a variable that is used in a function but is not local or parameters of that function.</p>
+</blockquote>
+<p>Usually, closure will happen for two scenarios:</p>
+<ol>
+<li>
+<p>function is returned as a result. We can simplify above code like this:</p>
+<pre><code class="language-js">function create() {
+    const a = 100;
+    return function () {
+        console.log(a);
+    }
+}
+const fn = create();
+const a = 200;
+fn();
+</code></pre>
+<p>Q: What's the printing result?</p>
+<p>A: 100.</p>
+</li>
+<li>
+<p>function is passed as a parameter:</p>
+<pre><code class="language-js">function print(fn) {
+    const a = 200;
+    fn();
+}
+const a = 100;
+function fn() {
+    console.log(a)
+}
+print(fn);
+</code></pre>
+<p>Q: What's the printing result?</p>
+<p>A: 100.</p>
+</li>
+</ol>
+<p>The conclusion is very obvious: <code>a</code> is a free variable, with closure feature, complier will follow the scope chain to search <code>a</code> in the place where the function is defined, <strong>NOT</strong> where the function is invoked.</p>
  </p>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 animate-box">
+                        
+                            <div class="next-post">
+                                <div class="next">下一篇</div>
+                                <a href="https://luxliu.github.io/post/webpack-performance/">
+                                    <h3 class="post-title">
+                                        How to improve performance in webpack
+                                    </h3>
+                                </a>
+                            </div>
                         
                     </div>
                 </div>
@@ -211,8 +305,20 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#a-boardgame-fun">⛹ A boardgame fun</a></li>
-<li><a href="#luxliu007168gmailcom">📬 luxliu007168@gmail.com</a></li>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-variable-scope">1. Variable scope</a></li>
+<li><a href="#2-closure">2. Closure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
