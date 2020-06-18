@@ -35,7 +35,7 @@
 
 </head>
 <body>
-<div id="fh5co-offcanvas">
+    <div id="fh5co-offcanvas">
     <a href="#!" class="fh5co-close-offcanvas js-fh5co-close-offcanvas">
         <span><i class="icon-cross3"></i> <span>Close</span></span>
     </a>
@@ -143,100 +143,134 @@
 </header>
 
 
-<div class="container-fluid">
-    <div class="row fh5co-post-entry single-entry">
-        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0 animate-box">
+    <!--  <a href="#" class="fh5co-post-prev"><span>👈 Prev</span></a>-->
+    <!--  <a href="#" class="fh5co-post-next"><span>Next 👉</span></a>-->
 
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2 col-xs-12 col-xs-offset-0 text-center content-article">
+    <!-- 等gridea出自定义页面功能再优化一下 -->
+    
+        <div class="container-fluid">
+    <div class="row fh5co-post-entry single-entry">
+        <article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+            <figure class="animate-box">
+                
+                    <img src="https://luxliu.github.io/post-images/the-under-hood-of-react-event-synthetic-event.jpg" alt="The under hood of React event —— Synthetic Event" class="img-responsive">
+                
+            </figure>
+            <span class="fh5co-meta animate-box">
+                
+            </span>
+            <h2 class="fh5co-article-title animate-box">The under hood of React event —— Synthetic Event</h2>
+            <ol class="breadcrumb fh5co-meta fh5co-date animate-box" style="margin-bottom:0; background-color:#f8f9fa">
+                <li>2020-06-18</li>
+                <li>406字</li>
+                <li>3 min read</li>
+            </ol>
+
+            <div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
+                <div class="row">
+                    <div class="col-md-12 animate-box post-content">
+                        <p> <p>When we attach an event on one JSX element, it's really simple and straight forward: just use camelCase in the tag, like <code>&lt;a href=&quot;https://google.com&quot; onClick={clickHandler}&gt;Foo&lt;/a&gt;</code>.</p>
+<p>However, when you inspect the event trigger in <code>clickHandler</code>, you will find something interesting.</p>
+<pre><code class="language-js">const clickHandler = (event) =&gt; {
+    event.preventDefault();
+    console.log('target', event.target);
+    console.log('current target', event.currentTarget);
+  };
+</code></pre>
+<p>After clicking, in the browser dev tool console, we can get the correct output:</p>
+<pre><code class="language-js">target   &lt;a href=&quot;https://google.com&quot;&gt;Foo&lt;/a&gt;
+current target   &lt;a href=&quot;https://google.com&quot;&gt;Foo&lt;/a&gt;
+</code></pre>
+<blockquote>
+<p><code>event.target</code> tells where the event started.</p>
+<p><code>event.currentTarget</code> tells us on which element the event was attached or the element whose <code>eventListener</code> triggered the event.</p>
+</blockquote>
+<p>Then if we print out the <code>event</code> object:</p>
+<pre><code class="language-bash">Hmmm, I won't show all properties and functions here. They are too many :P
+</code></pre>
+<p>And we also find the <code>__proto__</code> of this event is a class:</p>
+<pre><code class="language-js">__proto__: Class
+	constructor: f Class()
+	__proto__: SyntheticEvent
+</code></pre>
+<p>What's this <strong>Synthetic Event</strong> ?</p>
+<p>According to the official document of React, <a href="https://reactjs.org/docs/events.html#overview">SyntheticEvent</a> is  &quot;<em>a cross-browser wrapper around the browser’s native event</em>&quot; and &quot;<em>has the same interface as the browser’s native event</em>&quot;.</p>
+<p>That means React encapsulates the browser native event object within this synthetic event and implements all native interfaces, including properties and functions.</p>
+<p>Let's do this in <code>clickHandler</code>:</p>
+<pre><code class="language-js">const clickHandler = (event) =&gt; {
+    event.preventDefault();
+    console.log('native target', event.nativEvent.target);
+    console.log('native current target', event.nativEvent.currentTarget);
+  };
+</code></pre>
+<p>In the console, we have:</p>
+<pre><code class="language-js">native target   &lt;a href=&quot;https://google.com&quot;&gt;Foo&lt;/a&gt;
+native current target   #document
+</code></pre>
+<p>Which means, React attaches the native event listener on global  <code>document</code> object.</p>
+<p>let's have a summary for React event system:</p>
+<ol>
+<li>React event is SyntheticEvent, and simulate all abilities of DOM event;</li>
+<li>If you need native event, just use <code>event.nativeEvent</code>;</li>
+<li>All DOM events are attached on <code>document</code> object.</li>
+</ol>
+<p>But why? A couple of reasons:</p>
+<ol>
+<li>Better cross-platform performance. E.g. React team just needs to change the implementation layer when moving React from web to mobile, rather than rewrite the whole system;</li>
+<li>Attach on document, to reduce memory cost as this will prevent too often untie when components are unmounted;</li>
+<li>It's convenient for unified management of events, with this unified entry point.</li>
+</ol>
+ </p>
+                    </div>
+                </div>
 
                 <div class="row">
-
-                    
-                    <h2 class="text-center archives-title">
-                        <i class="fa fa-archive"></i> 文章归档
-                    </h2>
-
-                    
-                    <div class="row post-group">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-offset-0 text-center post-year tag-title">
-                            <h3>2020</h3>
-                        </div>
-
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xs-offset-0 text-left">
-                            <ul class="post-list">
-                            
-                                
-                                <li class="post-item">
-                                    <a href="https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/" target="_blank">
-                                        <span class="post-title">The under hood of React event —— Synthetic Event</span>
-                                        <span class="post-day">2020-06-18</span>
-                                    </a>
-                                </li>
-                                
-                            
-                                
-                                <li class="post-item">
-                                    <a href="https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/" target="_blank">
-                                        <span class="post-title">The simplest explanation of JS scope and closure</span>
-                                        <span class="post-day">2020-06-15</span>
-                                    </a>
-                                </li>
-                                
-                            
-                                
-                                <li class="post-item">
-                                    <a href="https://luxliu.github.io/post/webpack-performance/" target="_blank">
-                                        <span class="post-title">How to improve performance in webpack</span>
-                                        <span class="post-day">2020-05-27</span>
-                                    </a>
-                                </li>
-                                
-                            
-                                
-                                <li class="post-item">
-                                    <a href="https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/" target="_blank">
-                                        <span class="post-title">Use CircleCI to implement CI/CD and deploy to AWS S3</span>
-                                        <span class="post-day">2020-04-08</span>
-                                    </a>
-                                </li>
-                                
-                            
-                                
-                                <li class="post-item">
-                                    <a href="https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/" target="_blank">
-                                        <span class="post-title">What skills should you upgrade when COVID-19 spreads</span>
-                                        <span class="post-day">2020-03-29</span>
-                                    </a>
-                                </li>
-                                
-                            
-                                
-                                <li class="post-item">
-                                    <a href="https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/" target="_blank">
-                                        <span class="post-title">Use webpack to bundle styling files</span>
-                                        <span class="post-day">2020-03-17</span>
-                                    </a>
-                                </li>
-                                
-                            
-                            </ul>
-                        </div>
+                    <div class="col-md-12 animate-box">
+                        
+                            <div class="next-post">
+                                <div class="next">下一篇</div>
+                                <a href="https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/">
+                                    <h3 class="post-title">
+                                        The simplest explanation of JS scope and closure
+                                    </h3>
+                                </a>
+                            </div>
+                        
                     </div>
-                    
-
                 </div>
-            </div>
-        </div>
+
+                <div class="row">
+    <div class="col-md-12 animate-box">
+        
     </div>
 </div>
 
+            </div>
 
+        </article>
+    </div>
+</div>
+
+    
+
+    <!-- 返回顶部 -->
+    <div class="back-to-top">
+    
+    <a href="#top" class="hidden-xs hidden-sm"><i class="fa fa-paper-plane"></i></a>
+</div>
+
+<div class="post-toc animated fadeInRight hidden-xs hidden-sm" style="display: none;">
+    
+</div>
+
+
+    
 <footer id="fh5co-footer">
   <p></p>
 </footer>
 
 
-<!-- jQuery -->
+    <!-- jQuery -->
 <script src="https://luxliu.github.io/media/scripts/jquery.min.js"></script>
 <!-- img lazy load -->
 <script src="https://luxliu.github.io/media/scripts/jquery.lazyload.min.js"></script>
