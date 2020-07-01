@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-07-01T03:48:40.312Z</updated>
+    <updated>2020-07-01T05:05:32.799Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -11,17 +11,17 @@
     <icon>https://luxliu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
     <entry>
-        <title type="html"><![CDATA[Go through the basic JavaScript skills before your  interview  --- Variable types and computing]]></title>
+        <title type="html"><![CDATA[Go through the basic JavaScript skills before interview  --- Variable types and computing]]></title>
         <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/</id>
         <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/">
         </link>
-        <updated>2020-07-01T15:33:33.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="questions">questions:</h2>
+        <updated>2020-07-01T23:33:33.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="questions">Questions:</h2>
 <p>a. What kind of variable types can be checked by <code>typeof</code>?</p>
 <p>b. When should use <code>==</code> and when should use <code>===</code>?</p>
 <p>c. What's the difference between value type and reference type?</p>
 <p>d. Implement the deep clone manually.</p>
-<h2 id="skills">skills:</h2>
+<h2 id="skills">Skills:</h2>
 <h3 id="1-assignment-of-value-type-and-reference-type">1. Assignment of value type and reference type:</h3>
 <pre><code class="language-js">let a = 100;
 let b = a;
@@ -283,11 +283,124 @@ if (obj.a == null) {}
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Go through the basic JavaScript skills before interview  --- Prototype and prototype chain]]></title>
+        <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-prototype-and-prototype-chain/</id>
+        <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-prototype-and-prototype-chain/">
+        </link>
+        <updated>2020-07-01T13:03:59.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="questions">Questions:</h2>
+<p>a. How to check if an object is an array?</p>
+<p>b. Create a simple jQuery manually.</p>
+<p>c. How do you understand the relationship between prototype and class?</p>
+<h2 id="skills">Skills:</h2>
+<h3 id="1-type-check-instanceof">1. Type check - instanceof:</h3>
+<pre><code class="language-js">class People {
+    constructor(name) {
+        this.name = name
+    }
+    eat() {
+        console.log(`${this.name} eat something`)
+    }
+}
+
+class Student extends People {
+    constructor(name, number) {
+        super(name)
+        this.number = number
+    }
+    sayHi() {
+        console.log(`name ${this.name} number ${this.number}`)
+    }
+}
+
+const lux = new Student('Lux', 100)
+</code></pre>
+<pre><code class="language-js">lux instanceof Student // true
+lux instanceof People // true, People is parent of Student
+lux instanceof Object // true, Object is parent of all classes
+
+[] instanceof Array // true
+[] instanceof Object // true
+
+{} instanceof Object // true
+</code></pre>
+<h3 id="2-prototype">2. Prototype</h3>
+<pre><code class="language-js">// in fact, class is a function, so I consider class as a syntax sugar
+typeof People // 'function'
+typeof Student // 'function'
+
+// implicit prototype and explicit prototype
+console.log( lux.__proto__ )
+console.log( Student.prototype )
+console.log(lux.__proto__ === Student.prototype ) // true
+</code></pre>
+<h3 id="3-prototype-chain-and-instanceof">3. Prototype chain and instanceof</h3>
+<p>![](https://raw.githubusercontent.com/luxliu/Picbed_picGo/master/interview/prototype chain.png)</p>
+<p>a. Every class has an explicit prototype <code>prototype</code>;</p>
+<p>b. Every instance has an implicit prototype <code>__proto__</code>;</p>
+<p>c.  The implicit prototype of instance points to the explicit prototype of its class;</p>
+<p>d. When require the properties or functions, JS will not search from the <code>__proto__</code> until can't get it from the properties and functions which belong to this instance.</p>
+<p>e. <code>instanceof</code> will follow the prototype chain and search the name of each prototype, and will return <code>true</code> once find one.</p>
+<h3 id="4-write-a-simple-jquery">4. Write a simple jQuery</h3>
+<pre><code class="language-js">class jQuery {
+    constructor(selector) {
+        const result = document.querySelectorAll(selector)
+        const length = result.length
+        for (let i = 0; i &lt; length; i++) {
+            this[i] = result[i]
+        }
+        this.length = length
+        this.selector = selector
+    }
+    get(index) {
+        return this[index]
+    }
+    each(fn) {
+        for (let i = 0; i &lt; this.length; i++) {
+            const elem = this[i]
+            fn(elem)
+        }
+    }
+    on(type, fn) {
+        return this.each(elem =&gt; {
+            elem.addEventListener(type, fn, false)
+        })
+    }
+    // extend more DOM APIs
+}
+
+// use prototype to extend jQuery
+jQuery.prototype.dialog = function (info) {
+    alert(info)
+}
+
+// use class inheritance to extend jQuery
+class myJQuery extends jQuery {
+    constructor(selector) {
+        super(selector)
+    }
+    // extend own functions
+    addClass(className) {
+
+    }
+    style(data) {
+        
+    }
+}
+
+// const $p = new jQuery('p')
+// $p.get(1)
+// $p.each((elem) =&gt; console.log(elem.nodeName))
+// $p.on('click', () =&gt; alert('clicked'))
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[The under hood of React event —— Synthetic Event]]></title>
         <id>https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/</id>
         <link href="https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/">
         </link>
-        <updated>2020-06-18T07:37:50.000Z</updated>
+        <updated>2020-06-18T11:37:50.000Z</updated>
         <content type="html"><![CDATA[<p>When we attach an event on one JSX element, it's really simple and straight forward: just use camelCase in the tag, like <code>&lt;a href=&quot;https://google.com&quot; onClick={clickHandler}&gt;Foo&lt;/a&gt;</code>.</p>
 <p>However, when you inspect the event trigger in <code>clickHandler</code>, you will find something interesting.</p>
 <pre><code class="language-js">const clickHandler = (event) =&gt; {

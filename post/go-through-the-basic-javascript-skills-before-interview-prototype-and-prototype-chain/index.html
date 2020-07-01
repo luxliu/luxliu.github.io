@@ -1,0 +1,297 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go through the basic JavaScript skills before interview  --- Prototype and prototype chain | Lux&#39;s Blog</title>
+<link rel="shortcut icon" href="https://luxliu.github.io/favicon.ico?v=1593579900771">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://luxliu.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Go through the basic JavaScript skills before interview  --- Prototype and prototype chain | Lux&#39;s Blog - Atom Feed" href="https://luxliu.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="Questions:
+a. How to check if an object is an array?
+b. Create a simple jQuery manually.
+c. How do you understand the re..." />
+    <meta name="keywords" content="JavaScript,Basic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://luxliu.github.io">
+  <img class="avatar" src="https://luxliu.github.io/images/avatar.png?v=1593579900771" alt="">
+  </a>
+  <h1 class="site-title">
+    Lux&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Action as a normal
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          Home
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          Archives
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          Tags
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          About
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Go through the basic JavaScript skills before interview  --- Prototype and prototype chain
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-02
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://luxliu.github.io/tag/2vNKS4OOD/" class="post-tag">
+                  # JavaScript
+                </a>
+              
+                <a href="https://luxliu.github.io/tag/I2nhd0xXh/" class="post-tag">
+                  # Basic
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://luxliu.github.io/post-images/go-through-the-basic-javascript-skills-before-interview-prototype-and-prototype-chain.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="questions">Questions:</h2>
+<p>a. How to check if an object is an array?</p>
+<p>b. Create a simple jQuery manually.</p>
+<p>c. How do you understand the relationship between prototype and class?</p>
+<h2 id="skills">Skills:</h2>
+<h3 id="1-type-check-instanceof">1. Type check - instanceof:</h3>
+<pre><code class="language-js">class People {
+    constructor(name) {
+        this.name = name
+    }
+    eat() {
+        console.log(`${this.name} eat something`)
+    }
+}
+
+class Student extends People {
+    constructor(name, number) {
+        super(name)
+        this.number = number
+    }
+    sayHi() {
+        console.log(`name ${this.name} number ${this.number}`)
+    }
+}
+
+const lux = new Student('Lux', 100)
+</code></pre>
+<pre><code class="language-js">lux instanceof Student // true
+lux instanceof People // true, People is parent of Student
+lux instanceof Object // true, Object is parent of all classes
+
+[] instanceof Array // true
+[] instanceof Object // true
+
+{} instanceof Object // true
+</code></pre>
+<h3 id="2-prototype">2. Prototype</h3>
+<pre><code class="language-js">// in fact, class is a function, so I consider class as a syntax sugar
+typeof People // 'function'
+typeof Student // 'function'
+
+// implicit prototype and explicit prototype
+console.log( lux.__proto__ )
+console.log( Student.prototype )
+console.log(lux.__proto__ === Student.prototype ) // true
+</code></pre>
+<h3 id="3-prototype-chain-and-instanceof">3. Prototype chain and instanceof</h3>
+<p>![](https://raw.githubusercontent.com/luxliu/Picbed_picGo/master/interview/prototype chain.png)</p>
+<p>a. Every class has an explicit prototype <code>prototype</code>;</p>
+<p>b. Every instance has an implicit prototype <code>__proto__</code>;</p>
+<p>c.  The implicit prototype of instance points to the explicit prototype of its class;</p>
+<p>d. When require the properties or functions, JS will not search from the <code>__proto__</code> until can't get it from the properties and functions which belong to this instance.</p>
+<p>e. <code>instanceof</code> will follow the prototype chain and search the name of each prototype, and will return <code>true</code> once find one.</p>
+<h3 id="4-write-a-simple-jquery">4. Write a simple jQuery</h3>
+<pre><code class="language-js">class jQuery {
+    constructor(selector) {
+        const result = document.querySelectorAll(selector)
+        const length = result.length
+        for (let i = 0; i &lt; length; i++) {
+            this[i] = result[i]
+        }
+        this.length = length
+        this.selector = selector
+    }
+    get(index) {
+        return this[index]
+    }
+    each(fn) {
+        for (let i = 0; i &lt; this.length; i++) {
+            const elem = this[i]
+            fn(elem)
+        }
+    }
+    on(type, fn) {
+        return this.each(elem =&gt; {
+            elem.addEventListener(type, fn, false)
+        })
+    }
+    // extend more DOM APIs
+}
+
+// use prototype to extend jQuery
+jQuery.prototype.dialog = function (info) {
+    alert(info)
+}
+
+// use class inheritance to extend jQuery
+class myJQuery extends jQuery {
+    constructor(selector) {
+        super(selector)
+    }
+    // extend own functions
+    addClass(className) {
+
+    }
+    style(data) {
+        
+    }
+}
+
+// const $p = new jQuery('p')
+// $p.get(1)
+// $p.each((elem) =&gt; console.log(elem.nodeName))
+// $p.on('click', () =&gt; alert('clicked'))
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#questions">Questions:</a></li>
+<li><a href="#skills">Skills:</a>
+<ul>
+<li><a href="#1-type-check-instanceof">1. Type check - instanceof:</a></li>
+<li><a href="#2-prototype">2. Prototype</a></li>
+<li><a href="#3-prototype-chain-and-instanceof">3. Prototype chain and instanceof</a></li>
+<li><a href="#4-write-a-simple-jquery">4. Write a simple jQuery</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/">
+              <h3 class="post-title">
+                The under hood of React event —— Synthetic Event
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://luxliu.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
