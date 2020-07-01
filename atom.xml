@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-06-18T03:39:36.364Z</updated>
+    <updated>2020-07-01T03:41:41.725Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -10,6 +10,278 @@
     <logo>https://luxliu.github.io/images/avatar.png</logo>
     <icon>https://luxliu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Go through the basic JavaScript skills before your  interview  --- Variable types and computing]]></title>
+        <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/</id>
+        <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/">
+        </link>
+        <updated>2020-07-01T15:33:33.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="questions">questions:</h2>
+<p>a. What kind of variable types can be checked by <code>typeof</code>?</p>
+<p>b. When should use <code>==</code> and when should use <code>===</code>?</p>
+<p>c. What's the difference between value type and reference type?</p>
+<p>d. Implement the deep clone manually.</p>
+<h2 id="skills">skills:</h2>
+<h3 id="1-assignment-of-value-type-and-reference-type">1. Assignment of value type and reference type:</h3>
+<pre><code class="language-js">let a = 100;
+let b = a;
+a = 200;
+console.log(b) //100
+</code></pre>
+<pre><code class="language-js">let a = {age:20}
+let b =a;
+b.age = 21;
+console.log(a.age)
+</code></pre>
+<p><strong>value-type variables won't effect each other after assignment, but reference-type ones will.</strong></p>
+<p>The changes for value-type  <code>a</code> and <code>b</code> in <strong>memory stack</strong>:</p>
+<p>step 1<code>let a = 100</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>step 2 <code>let b = 100</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>100</td>
+</tr>
+<tr>
+<td>b</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>step 3 <code>a=200</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>200</td>
+</tr>
+<tr>
+<td>b</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>The changes for reference-type  <code>a</code> and <code>b</code> in <strong>memory stack and heap</strong>:</p>
+<p>step 1 <code>let a = { age: 20}</code>:</p>
+<p>In stack:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>address 1</td>
+</tr>
+</tbody>
+</table>
+<p>In heap:</p>
+<table>
+<thead>
+<tr>
+<th>Address 1</th>
+<th>{age: 20}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td>Value</td>
+</tr>
+</tbody>
+</table>
+<p>step 2 <code>let b = a</code>:</p>
+<p>In stack:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>address 1</td>
+</tr>
+<tr>
+<td>b</td>
+<td>address 1</td>
+</tr>
+</tbody>
+</table>
+<p>In heap:</p>
+<table>
+<thead>
+<tr>
+<th>Address 1</th>
+<th>{age: 20}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td>Value</td>
+</tr>
+</tbody>
+</table>
+<p>step 3: <code>b.age = 21</code>:</p>
+<p>In stack:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>address 1</td>
+</tr>
+<tr>
+<td>b</td>
+<td>address 1</td>
+</tr>
+</tbody>
+</table>
+<p>In heap:</p>
+<table>
+<thead>
+<tr>
+<th>Address 1</th>
+<th>{age: 21}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td>Value</td>
+</tr>
+</tbody>
+</table>
+<p>The computer will put value-type variables in the stack directly but use memory address to point to the value of reference-type variables, as the performance consideration and copy efficiency.</p>
+<h3 id="2-whats-value-types-and-reference-types">2. What's value types and reference types</h3>
+<pre><code class="language-js">let a // undefined
+const s = 'abs' //string
+const n = 100 // number
+const b = true // boolean
+const sb = Symbol('s') // symbol
+</code></pre>
+<pre><code class="language-js">const obj = { x: 100 }
+const arr = ['a', 'b', 'c']
+
+const n = null // special reference type, pointer points to empty address
+
+// special reference type, typeof fn === 'function'
+function fn() {}
+</code></pre>
+<h3 id="3-typeof-operator">3. typeof operator</h3>
+<pre><code class="language-js">// 1. typeof can check all value types
+let a;   				typeof a // 'uundefined'
+const str = 'abc'  		typeof str // 'string'
+const n = 100;     		typeof n // 'number'
+const b = true;			typeof b // 'boolean'
+const sb = Symbol('s')	typeof sb // 'symbol'
+</code></pre>
+<pre><code class="language-js">// 2. typeof can check function
+typeof console.log // 'function'
+typeof function () {} // 'function'
+</code></pre>
+<pre><code class="language-js">// 3. tyypeof can check reference type but can't get details
+typeof null // 'object'
+typeof ['a', 'b'] // 'object'
+typeof { x: 100 } // 'object'
+</code></pre>
+<h3 id="4-deep-clone">4. Deep clone</h3>
+<pre><code class="language-js">const obj = {
+    age: 20,
+    name: 'xxx',
+    address: {
+        city: 'Auckland'
+    },
+    arr: ['a', 'b', 'c']
+}
+
+function deepClone(obj = {}){
+    if(typeof obj !== 'object' || obj == null) {
+        // obj is null or not an object/array, return directly
+        return obj
+    }
+    
+    // init the returned result
+    let result
+    if(obj instanceof Array) {
+        result = []
+    }else {
+        result = {}
+    }
+    
+    for(let key in obj) {
+        // insure key is not the prototype property
+        if(obj.hasOwnProperty(key)) {
+            // Recursive
+            result[key] = deepClone(obj[key])
+        }
+    }
+    
+}
+</code></pre>
+<blockquote>
+<p>Note: don't use deep clone randomly, as for huge objects, the performance is poor. E.g. in React</p>
+</blockquote>
+<h3 id="5-variables-computing-type-conversion">5. Variables computing &amp; type conversion</h3>
+<pre><code class="language-js">// 1. string concatenation
+const a = 100 + 10 // 100
+const b = 100 + '10' // '10010' you can use 100 + parseInt('10', 10)
+const c = true + '10' // 'true10'
+</code></pre>
+<pre><code class="language-js">// 2. == operator, this will cause falsy and truthy conversion
+100 == '100' // true
+0 == '' // true
+0 == false // true
+false == '' // true
+null == undefined // true
+</code></pre>
+<pre><code class="language-js">// 3. Please use === except (== null):
+
+const obj = { x: 100 }
+if (obj.a == null) {}
+// above code can be written like this:
+// if (obj.a === null || obj.a === undefined) {}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[The under hood of React event —— Synthetic Event]]></title>
         <id>https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/</id>
