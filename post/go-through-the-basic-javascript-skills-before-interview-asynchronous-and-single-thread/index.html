@@ -1,0 +1,310 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go through the basic JavaScript skills before interview  --- Asynchronous and single thread | Lux&#39;s Blog</title>
+<link rel="shortcut icon" href="https://luxliu.github.io/favicon.ico?v=1593733510544">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://luxliu.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Go through the basic JavaScript skills before interview  --- Asynchronous and single thread | Lux&#39;s Blog - Atom Feed" href="https://luxliu.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="Question
+a. What's the differences between async and sync?
+b. Implement loading an image with Promise.
+c. When should yo..." />
+    <meta name="keywords" content="JavaScript,Basic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://luxliu.github.io">
+  <img class="avatar" src="https://luxliu.github.io/images/avatar.png?v=1593733510544" alt="">
+  </a>
+  <h1 class="site-title">
+    Lux&#39;s Blog
+  </h1>
+  <p class="site-description">
+    Action as a normal
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          Home
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          Archives
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          Tags
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          About
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Go through the basic JavaScript skills before interview  --- Asynchronous and single thread
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-03
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://luxliu.github.io/tag/2vNKS4OOD/" class="post-tag">
+                  # JavaScript
+                </a>
+              
+                <a href="https://luxliu.github.io/tag/I2nhd0xXh/" class="post-tag">
+                  # Basic
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://luxliu.github.io/post-images/go-through-the-basic-javascript-skills-before-interview-asynchronous-and-single-thread.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="question">Question</h2>
+<p>a. What's the differences between async and sync?</p>
+<p>b. Implement loading an image with Promise.</p>
+<p>c. When should you use async on front-end development?</p>
+<p>d. What's the input for below code?</p>
+<pre><code class="language-js">console.log(1)
+setTimeout(function () {
+    console.log(2)
+}, 1000)
+console.log(3)
+setTimeout(function () {
+    console.log(4)
+},0)
+console.log(5)
+</code></pre>
+<h2 id="skills">Skills</h2>
+<h3 id="1-asynchronous-and-single-thread">1. Asynchronous and single thread</h3>
+<blockquote>
+<p><strong>JS is a single thread language, which means only can handle one thing at one time;</strong></p>
+<p><strong>JS and DOM rendering use one same thread, as JS have possibility to modify DOM structure.</strong></p>
+</blockquote>
+<p>However, we usually require the application can't be blocked when waiting ( e.g. network request, or scheduled tasks). In this case, we need asynchronous solution.</p>
+<pre><code class="language-js">// async will use callback function and won't block following code execution 
+console.log(100)
+setTimeout(function () {
+    console.log(200)
+}, 1000)
+console.log(300)
+
+// 100, 300, 200
+</code></pre>
+<pre><code class="language-js">// sync
+console.log(100)
+alert(200)
+console.log(300)
+
+// 100, alert will block the next code and 300 won't output until you click alert confirm
+</code></pre>
+<h3 id="2-usage-scenarios">2. Usage scenarios</h3>
+<pre><code class="language-js">// ajax request
+console.log('start')
+axios.get('./data1.json', (data1)=&gt;{
+    console.log(data1)
+})
+console.log('end')
+</code></pre>
+<pre><code class="language-js">// image loading
+console.log('start')
+let img = document.createElement('img')
+img.onload = () =&gt; console.log('loaded')
+img.src = '/xxx.png'
+console.log('end')
+</code></pre>
+<pre><code class="language-js">// setTimeout/setInterval
+console.log(100)
+setTimeout(function () {
+    console.log(200)
+}, 1000)
+console.log(300)
+</code></pre>
+<h3 id="3-promise">3. Promise</h3>
+<blockquote>
+<p>Promise is to solve callback hell issue.</p>
+</blockquote>
+<pre><code class="language-js">// callback hell
+// get the first data
+$.get(url1, (data1)=&gt;{
+    console.log(data1)
+    
+    // get the second data
+    $.get(url2, (data2)=&gt;{
+    	console.log(data2)
+        
+        // get the second data
+        $.get(url2, (data2)=&gt;{
+            console.log(data2)
+			
+            // more requests...
+         })   
+     })   
+})
+</code></pre>
+<pre><code class="language-js">// use Promise to solve callback hell
+const getData(url) {
+    return new Promise((resolve, reject) =&gt; {
+        $.ajax({
+            url,
+            success(data) {
+                resolve(data)
+            },
+            error(err) {
+                reject(err)
+            }
+        })
+    })
+}
+
+// use it like this
+getData(url1).then(data1 =&gt; {
+    console.log(data1)
+    return getData(url2)
+}).then(data2 =&gt; {
+    console.log(data2)
+    return getData(url3)
+}).then(data3 =&gt; {
+    console.log(data3)
+}).catch(err =&gt; console.log(err))
+</code></pre>
+<h3 id="4-implement-loading-an-image-with-promise">4. Implement loading an image with Promise</h3>
+<pre><code class="language-js">const loadImg = (src) =&gt; new Promise(
+	(resolve, reject) =&gt; {
+        const img = document.createElement('img')
+        img.onlond = () =&gt; resolve(img)
+        img.onerror = () =&gt; reject(new Error('failed'))
+    	img.src = src
+    }
+)
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#question">Question</a></li>
+<li><a href="#skills">Skills</a>
+<ul>
+<li><a href="#1-asynchronous-and-single-thread">1. Asynchronous and single thread</a></li>
+<li><a href="#2-usage-scenarios">2. Usage scenarios</a></li>
+<li><a href="#3-promise">3. Promise</a></li>
+<li><a href="#4-implement-loading-an-image-with-promise">4. Implement loading an image with Promise</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-event-in-js/">
+              <h3 class="post-title">
+                Go through the basic JavaScript skills before interview  --- Event in JS
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://luxliu.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

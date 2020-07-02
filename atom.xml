@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-07-01T05:05:32.799Z</updated>
+    <updated>2020-07-02T23:45:39.477Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -10,6 +10,277 @@
     <logo>https://luxliu.github.io/images/avatar.png</logo>
     <icon>https://luxliu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
+    <entry>
+        <title type="html"><![CDATA[Go through the basic JavaScript skills before interview  --- Asynchronous and single thread]]></title>
+        <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-asynchronous-and-single-thread/</id>
+        <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-asynchronous-and-single-thread/">
+        </link>
+        <updated>2020-07-03T06:02:34.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="question">Question</h2>
+<p>a. What's the differences between async and sync?</p>
+<p>b. Implement loading an image with Promise.</p>
+<p>c. When should you use async on front-end development?</p>
+<p>d. What's the input for below code?</p>
+<pre><code class="language-js">console.log(1)
+setTimeout(function () {
+    console.log(2)
+}, 1000)
+console.log(3)
+setTimeout(function () {
+    console.log(4)
+},0)
+console.log(5)
+</code></pre>
+<h2 id="skills">Skills</h2>
+<h3 id="1-asynchronous-and-single-thread">1. Asynchronous and single thread</h3>
+<blockquote>
+<p><strong>JS is a single thread language, which means only can handle one thing at one time;</strong></p>
+<p><strong>JS and DOM rendering use one same thread, as JS have possibility to modify DOM structure.</strong></p>
+</blockquote>
+<p>However, we usually require the application can't be blocked when waiting ( e.g. network request, or scheduled tasks). In this case, we need asynchronous solution.</p>
+<pre><code class="language-js">// async will use callback function and won't block following code execution 
+console.log(100)
+setTimeout(function () {
+    console.log(200)
+}, 1000)
+console.log(300)
+
+// 100, 300, 200
+</code></pre>
+<pre><code class="language-js">// sync
+console.log(100)
+alert(200)
+console.log(300)
+
+// 100, alert will block the next code and 300 won't output until you click alert confirm
+</code></pre>
+<h3 id="2-usage-scenarios">2. Usage scenarios</h3>
+<pre><code class="language-js">// ajax request
+console.log('start')
+axios.get('./data1.json', (data1)=&gt;{
+    console.log(data1)
+})
+console.log('end')
+</code></pre>
+<pre><code class="language-js">// image loading
+console.log('start')
+let img = document.createElement('img')
+img.onload = () =&gt; console.log('loaded')
+img.src = '/xxx.png'
+console.log('end')
+</code></pre>
+<pre><code class="language-js">// setTimeout/setInterval
+console.log(100)
+setTimeout(function () {
+    console.log(200)
+}, 1000)
+console.log(300)
+</code></pre>
+<h3 id="3-promise">3. Promise</h3>
+<blockquote>
+<p>Promise is to solve callback hell issue.</p>
+</blockquote>
+<pre><code class="language-js">// callback hell
+// get the first data
+$.get(url1, (data1)=&gt;{
+    console.log(data1)
+    
+    // get the second data
+    $.get(url2, (data2)=&gt;{
+    	console.log(data2)
+        
+        // get the second data
+        $.get(url2, (data2)=&gt;{
+            console.log(data2)
+			
+            // more requests...
+         })   
+     })   
+})
+</code></pre>
+<pre><code class="language-js">// use Promise to solve callback hell
+const getData(url) {
+    return new Promise((resolve, reject) =&gt; {
+        $.ajax({
+            url,
+            success(data) {
+                resolve(data)
+            },
+            error(err) {
+                reject(err)
+            }
+        })
+    })
+}
+
+// use it like this
+getData(url1).then(data1 =&gt; {
+    console.log(data1)
+    return getData(url2)
+}).then(data2 =&gt; {
+    console.log(data2)
+    return getData(url3)
+}).then(data3 =&gt; {
+    console.log(data3)
+}).catch(err =&gt; console.log(err))
+</code></pre>
+<h3 id="4-implement-loading-an-image-with-promise">4. Implement loading an image with Promise</h3>
+<pre><code class="language-js">const loadImg = (src) =&gt; new Promise(
+	(resolve, reject) =&gt; {
+        const img = document.createElement('img')
+        img.onlond = () =&gt; resolve(img)
+        img.onerror = () =&gt; reject(new Error('failed'))
+    	img.src = src
+    }
+)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go through the basic JavaScript skills before interview  --- Event in JS]]></title>
+        <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-event-in-js/</id>
+        <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-event-in-js/">
+        </link>
+        <updated>2020-07-03T03:37:11.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="question">Question</h2>
+<p>a. Implement a general event listener function</p>
+<p>b. What's the event bubbling?</p>
+<p>c. How to listen every image click in an unlimited drop-down picture list?</p>
+<h2 id="skills">Skills</h2>
+<h3 id="1-event-binding">1. Event binding</h3>
+<pre><code class="language-js">// general event binding function
+const bindEvent = (elem, type, fn) =&gt; {
+    elem.addEventListener(type, fn)
+}
+
+const btn = document.getElementById('btn')
+bindEvent(btn, 'click', event =&gt; {
+    event.preventDefault() // prevent default action
+    alert('click')
+})
+</code></pre>
+<h3 id="2-event-bubbling">2. Event bubbling</h3>
+<pre><code class="language-html">&lt;body&gt;
+    &lt;div id=&quot;div1&quot;&gt;
+        &lt;p id=&quot;p1&quot;&gt;active&lt;/p&gt;
+        &lt;p id=&quot;p2&quot;&gt;cancel&lt;/p&gt;
+        &lt;p id=&quot;p3&quot;&gt;cancel&lt;/p&gt;
+        &lt;p id=&quot;p4&quot;&gt;cancel&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div2&quot;&gt;
+        &lt;p id=&quot;p5&quot;&gt;cancel&lt;/p&gt;
+        &lt;p id=&quot;p6&quot;&gt;cancel&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+<pre><code class="language-js">// bind event
+const body = document.body
+bindEvent(body, 'click', event =&gt; {
+    console.log('body clicked')
+    console.log(event.target) // the element which triggers the event
+})
+
+// when click p1, the output is 'body clicked' + '&lt;p id=&quot;p1&quot;&gt;active&lt;/p&gt;'
+
+const div1 = document.getElementById('div1')
+bindEvent(div1, 'click', event =&gt; {
+    console.log('div1 clicked')
+})
+
+// click p1 output: 
+// div1 clicked
+// body clicked
+// &lt;p id=&quot;p1&quot;&gt;active&lt;/p&gt;
+
+// click p5 output: 
+// body clicked
+// &lt;p id=&quot;p5&quot;&gt;cancel&lt;/p&gt;
+</code></pre>
+<blockquote>
+<p>Event will propagate from bottom to top following the DOM tree</p>
+</blockquote>
+<h3 id="3-event-delegate">3. Event delegate</h3>
+<p>Right now, we have a new demand: when you click p1, the output should be &quot;active&quot;, and when you click p2, p3, p4, p5, output should be &quot;cancel&quot;.</p>
+<p>The question is: do we have to bind event for all p2, p3, p4 and p5?</p>
+<pre><code class="language-js">// the solution is to take advantage of event bubbling
+// 1. bind active event to p1
+const p1 = document.getElementById('p1')
+bindEvent(p1, 'click', event =&gt; {
+    // 3. add stopPropagation to prevent event bubbling to body
+    event.stopPropagation()
+    console.log('active')
+})
+
+// 2. bind cancel event to body
+const body = document.body
+bindEvent(body, 'click', event =&gt; {
+    console.log('cancel')
+})
+</code></pre>
+<p>Let's have a look at another example:</p>
+<pre><code class="language-html">&lt;div id=&quot;div1&quot;&gt;
+    &lt;a href=&quot;#&quot;&gt;a1&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;a2&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;a3&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;a4&lt;/a&gt;
+&lt;/div&gt;
+&lt;button&gt;
+    add one a tag
+&lt;/button&gt;
+</code></pre>
+<p>We need to add click event for all <code>a</code> tags, but we can't know how many <code>a</code> tags exactly in div1, as the button can add a new  <code>a</code> tag.  Use event delegate to handle this case:</p>
+<pre><code class="language-js">const div1 = document.getElementById('div1')
+div1.addEventListener('click', e =&gt; {
+    event.preventDefault() // prevent the a tag function
+    const target = e.target
+    if(e.nodeName === 'A'){
+        console.log(target.innerHTML) // this will output the a tag inner html
+    }
+})
+</code></pre>
+<p>The advantages of event delegate:</p>
+<ol>
+<li>Make simpler code</li>
+<li>Save memory as we don't have to bind / unbind too many elements</li>
+<li>Don't abuse!</li>
+</ol>
+<p>Let's refactor the general event binding function right now, as it was too simple!</p>
+<pre><code class="language-js">const bindEvent(elem, type, selector, fn) {
+    // check if it's normal binding or delegate binding
+    if(fn==null){
+        fn = selector
+        selector = null
+    }
+    elem.addEventListener(type, event =&gt; {
+        const target = event.target
+        if(selectror){
+            // delegate bind
+            if(target.matches(selector)){
+                fn.call(target, event)
+            }
+        }else{
+            // normal bind
+            fn.call(target, event)
+        }
+    })
+}
+
+// when use it:
+// normal binding
+const p1 = document.getElementById('p1')
+bindEvent(p1, 'click', function(event) { // Don't use arrow function here!
+    event.stopPropagation()
+    console.log('active')
+})
+// delegate binding
+const div1 = document.getElementById('div1')
+bindEvent(div3, 'click', 'a', function(event) {
+    event.preventDefault()
+    console.log(this.innerHTML)
+})
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Go through the basic JavaScript skills before interview  --- Variable types and computing]]></title>
         <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/</id>
