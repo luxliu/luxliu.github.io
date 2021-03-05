@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2021-03-05T08:07:00.755Z</updated>
+    <updated>2021-03-05T08:12:07.386Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
@@ -671,7 +671,7 @@ class myJQuery extends jQuery {
         <id>https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/</id>
         <link href="https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/">
         </link>
-        <updated>2021-01-05T19:37:50.000Z</updated>
+        <updated>2021-01-06T05:37:50.000Z</updated>
         <content type="html"><![CDATA[<p>When we attach an event on one JSX element, it's really simple and straight forward: just use camelCase in the tag, like <code>&lt;a href=&quot;https://google.com&quot; onClick={clickHandler}&gt;Foo&lt;/a&gt;</code>.</p>
 <p>However, when you inspect the event trigger in <code>clickHandler</code>, you will find something interesting.</p>
 <pre><code class="language-js">const clickHandler = (event) =&gt; {
@@ -730,7 +730,7 @@ native current target   #document
         <id>https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/</id>
         <link href="https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/">
         </link>
-        <updated>2020-12-11T14:02:00.000Z</updated>
+        <updated>2020-12-11T19:02:00.000Z</updated>
         <content type="html"><![CDATA[<p>As a more functional programming styled language, JavaScript has a simpler variable scope than some other object-oriented  styled language, like C# and Java.</p>
 <h2 id="1-variable-scope">1. Variable scope</h2>
 <p>Before ES6, we only have 2 scopes for variables: global scope and function scope. In ES6, we also have an extra scope: block scope.</p>
@@ -818,7 +818,7 @@ print(fn);
         <id>https://luxliu.github.io/post/webpack-performance/</id>
         <link href="https://luxliu.github.io/post/webpack-performance/">
         </link>
-        <updated>2020-11-26T18:51:27.000Z</updated>
+        <updated>2020-11-26T23:51:27.000Z</updated>
         <content type="html"><![CDATA[<p>As the front-end side is becoming bigger and more complex, sometimes we have to face to the issue of performance. Briefly, we hope the users will experience our web app as faster as possible. This is about to minimize the request files size and optimize the request order. Let's have a look at how could we do this in webpack.</p>
 <h4 id="1-tree-shaking">1. Tree Shaking</h4>
 <p>As the naming, tree shaking will shake the useless modules even it's claimed in some other files. This will decrease bundle size.</p>
@@ -1026,7 +1026,7 @@ export default handleClick;
         <id>https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/</id>
         <link href="https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/">
         </link>
-        <updated>2020-10-28T05:31:44.000Z</updated>
+        <updated>2020-10-28T10:31:44.000Z</updated>
         <content type="html"><![CDATA[<h3 id="some-important-concepts-before-we-start">Some important concepts before we start</h3>
 <h4 id="1-cicd">1. CI/CD</h4>
 <p>During the development of a project, developers will commit and push code to the main branch of a shared repository frequently. Of course, before commit/push, we usually need to run tests and check code style to insure the new code could integrate with existing code very well.</p>
@@ -1419,7 +1419,7 @@ img.classList.add(style.avatar);
         <id>https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/</id>
         <link href="https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/">
         </link>
-        <updated>2020-04-07T04:44:43.000Z</updated>
+        <updated>2020-04-07T08:44:43.000Z</updated>
         <content type="html"><![CDATA[<blockquote>
 <p>This is a special period. Everyone is facing economic recession, salary deduction, even massive unemployment. As an IT people, we have to think about where the future is, and what we should do to prepare for it.</p>
 </blockquote>
