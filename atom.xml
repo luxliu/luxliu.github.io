@@ -2,20 +2,20 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://luxliu.github.io</id>
     <title>Lux&apos;s Blog</title>
-    <updated>2020-07-02T23:45:39.477Z</updated>
+    <updated>2021-03-05T08:07:00.755Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://luxliu.github.io"/>
     <link rel="self" href="https://luxliu.github.io/atom.xml"/>
     <subtitle>Action as a normal</subtitle>
     <logo>https://luxliu.github.io/images/avatar.png</logo>
     <icon>https://luxliu.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Lux&apos;s Blog</rights>
+    <rights>All rights reserved 2021, Lux&apos;s Blog</rights>
     <entry>
         <title type="html"><![CDATA[Go through the basic JavaScript skills before interview  --- Asynchronous and single thread]]></title>
         <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-asynchronous-and-single-thread/</id>
         <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-asynchronous-and-single-thread/">
         </link>
-        <updated>2020-07-03T06:02:34.000Z</updated>
+        <updated>2021-02-05T03:02:34.000Z</updated>
         <content type="html"><![CDATA[<h2 id="question">Question</h2>
 <p>a. What's the differences between async and sync?</p>
 <p>b. Implement loading an image with Promise.</p>
@@ -141,7 +141,7 @@ getData(url1).then(data1 =&gt; {
         <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-event-in-js/</id>
         <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-event-in-js/">
         </link>
-        <updated>2020-07-03T03:37:11.000Z</updated>
+        <updated>2021-02-02T15:37:11.000Z</updated>
         <content type="html"><![CDATA[<h2 id="question">Question</h2>
 <p>a. Implement a general event listener function</p>
 <p>b. What's the event bubbling?</p>
@@ -286,7 +286,7 @@ bindEvent(div3, 'click', 'a', function(event) {
         <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/</id>
         <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-your-interview-variable-types-and-computing/">
         </link>
-        <updated>2020-07-01T23:33:33.000Z</updated>
+        <updated>2021-01-29T11:33:33.000Z</updated>
         <content type="html"><![CDATA[<h2 id="questions">Questions:</h2>
 <p>a. What kind of variable types can be checked by <code>typeof</code>?</p>
 <p>b. When should use <code>==</code> and when should use <code>===</code>?</p>
@@ -558,7 +558,7 @@ if (obj.a == null) {}
         <id>https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-prototype-and-prototype-chain/</id>
         <link href="https://luxliu.github.io/post/go-through-the-basic-javascript-skills-before-interview-prototype-and-prototype-chain/">
         </link>
-        <updated>2020-07-01T13:03:59.000Z</updated>
+        <updated>2021-01-29T01:03:59.000Z</updated>
         <content type="html"><![CDATA[<h2 id="questions">Questions:</h2>
 <p>a. How to check if an object is an array?</p>
 <p>b. Create a simple jQuery manually.</p>
@@ -671,7 +671,7 @@ class myJQuery extends jQuery {
         <id>https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/</id>
         <link href="https://luxliu.github.io/post/the-under-hood-of-react-event-synthetic-event/">
         </link>
-        <updated>2020-06-18T11:37:50.000Z</updated>
+        <updated>2021-01-05T19:37:50.000Z</updated>
         <content type="html"><![CDATA[<p>When we attach an event on one JSX element, it's really simple and straight forward: just use camelCase in the tag, like <code>&lt;a href=&quot;https://google.com&quot; onClick={clickHandler}&gt;Foo&lt;/a&gt;</code>.</p>
 <p>However, when you inspect the event trigger in <code>clickHandler</code>, you will find something interesting.</p>
 <pre><code class="language-js">const clickHandler = (event) =&gt; {
@@ -730,7 +730,7 @@ native current target   #document
         <id>https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/</id>
         <link href="https://luxliu.github.io/post/the-simplest-explanation-of-js-scope-and-closure/">
         </link>
-        <updated>2020-06-15T06:02:00.000Z</updated>
+        <updated>2020-12-11T14:02:00.000Z</updated>
         <content type="html"><![CDATA[<p>As a more functional programming styled language, JavaScript has a simpler variable scope than some other object-oriented  styled language, like C# and Java.</p>
 <h2 id="1-variable-scope">1. Variable scope</h2>
 <p>Before ES6, we only have 2 scopes for variables: global scope and function scope. In ES6, we also have an extra scope: block scope.</p>
@@ -818,7 +818,7 @@ print(fn);
         <id>https://luxliu.github.io/post/webpack-performance/</id>
         <link href="https://luxliu.github.io/post/webpack-performance/">
         </link>
-        <updated>2020-05-27T10:51:27.000Z</updated>
+        <updated>2020-11-26T18:51:27.000Z</updated>
         <content type="html"><![CDATA[<p>As the front-end side is becoming bigger and more complex, sometimes we have to face to the issue of performance. Briefly, we hope the users will experience our web app as faster as possible. This is about to minimize the request files size and optimize the request order. Let's have a look at how could we do this in webpack.</p>
 <h4 id="1-tree-shaking">1. Tree Shaking</h4>
 <p>As the naming, tree shaking will shake the useless modules even it's claimed in some other files. This will decrease bundle size.</p>
@@ -1026,7 +1026,7 @@ export default handleClick;
         <id>https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/</id>
         <link href="https://luxliu.github.io/post/use-circleci-to-implement-cicd-of-front-end-code-and-deploy-to-aws-s3/">
         </link>
-        <updated>2020-04-07T21:31:44.000Z</updated>
+        <updated>2020-10-28T05:31:44.000Z</updated>
         <content type="html"><![CDATA[<h3 id="some-important-concepts-before-we-start">Some important concepts before we start</h3>
 <h4 id="1-cicd">1. CI/CD</h4>
 <p>During the development of a project, developers will commit and push code to the main branch of a shared repository frequently. Of course, before commit/push, we usually need to run tests and check code style to insure the new code could integrate with existing code very well.</p>
@@ -1265,33 +1265,11 @@ workflows:
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[What skills should you upgrade when COVID-19 spreads]]></title>
-        <id>https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/</id>
-        <link href="https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/">
-        </link>
-        <updated>2020-03-28T18:44:43.000Z</updated>
-        <content type="html"><![CDATA[<blockquote>
-<p>This is a special period. Everyone is facing economic recession, salary deduction, even massive unemployment. As an IT people, we have to think about where the future is, and what we should do to prepare for it.</p>
-</blockquote>
-<h3 id="industry-structure-is-changing">Industry structure is changing</h3>
-<p>A lot of industries are changing rapidly because of the pandemic. Especially some population-intensive businesses like some non-essential manufacturing, cinema, bar, and casino. People stay at home and what they need is only the necessities of life. So you can have a think about your industry you are serving and its value chain. How is it  impacted by the virus? Is this impact short-term or long-term? I'm not encouraging you leave your company right now, but just think about it right now.</p>
-<p>Currently, everybody knows only the essential industries are stable. Food, water, power and healthcare, they are necessary for our daily life. However they won't provide many opportunities to us IT practitioners. We have to focus something else. Everything is changing to remote, remote meeting, remote teaching, even remote gym. Meanwhile the online entertainment is booming. The VR and AI technology maybe attract capital again.</p>
-<p>If you are interested in these industries, maybe you can start learn from now.</p>
-<h3 id="scale-your-skills-horizontally">Scale your skills horizontally</h3>
-<p>If you live in a small country, like me, I suggest you should scale your IT skills horizontally.</p>
-<p>Small country usually has more small-medium enterprises(SME), and SME needs employees can do everything. The most important thing to SME is surviving, so do we.</p>
-<p>If you are a front-end developer, then study some back-end skills to become a full-stack developer. If you are an IT supporter, maybe you can consider to learn some coding skills.</p>
-<blockquote>
-<p>The battle is not only about the pandemic, but also the economic recovering. We will win this battle, the question is when.</p>
-</blockquote>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Use webpack to bundle styling files]]></title>
         <id>https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/</id>
         <link href="https://luxliu.github.io/post/use-webpack-to-bundle-styling-files/">
         </link>
-        <updated>2020-03-17T02:01:35.000Z</updated>
+        <updated>2020-10-11T17:01:35.000Z</updated>
         <content type="html"><![CDATA[<p>As a popular bundling tool, webpack has a lot of configurations to learn. It's impossible to know everything about the loaders/plugins and their configurations, but we need to know some general configs for normal files, like  <code>.css</code> or <code>.scss</code>.</p>
 <h4 id="1-clone-repo-and-init">1. Clone repo and init</h4>
 <p>First, you need clone the <a href="https://github.com/luxliu/webpack-bundle-style-files">demo project</a> for this article from git, and run <code>npm i</code> in the root directory. This will install necessary packages: <code>webpack</code>, <code>webpack-cli</code>, <code>file-loader</code> and <code>url-loader</code>.</p>
@@ -1434,6 +1412,28 @@ import style from './index.scss';
 img.classList.add(style.avatar);
 </code></pre>
 <p>Re-bundle and you will see the first image has no any style but the second one gets styles as we expected.</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What skills should you upgrade when COVID-19 spreads]]></title>
+        <id>https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/</id>
+        <link href="https://luxliu.github.io/post/what-skills-should-you-upgrade-when-covid-19-spreading/">
+        </link>
+        <updated>2020-04-07T04:44:43.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>This is a special period. Everyone is facing economic recession, salary deduction, even massive unemployment. As an IT people, we have to think about where the future is, and what we should do to prepare for it.</p>
+</blockquote>
+<h3 id="industry-structure-is-changing">Industry structure is changing</h3>
+<p>A lot of industries are changing rapidly because of the pandemic. Especially some population-intensive businesses like some non-essential manufacturing, cinema, bar, and casino. People stay at home and what they need is only the necessities of life. So you can have a think about your industry you are serving and its value chain. How is it  impacted by the virus? Is this impact short-term or long-term? I'm not encouraging you leave your company right now, but just think about it right now.</p>
+<p>Currently, everybody knows only the essential industries are stable. Food, water, power and healthcare, they are necessary for our daily life. However they won't provide many opportunities to us IT practitioners. We have to focus something else. Everything is changing to remote, remote meeting, remote teaching, even remote gym. Meanwhile the online entertainment is booming. The VR and AI technology maybe attract capital again.</p>
+<p>If you are interested in these industries, maybe you can start learn from now.</p>
+<h3 id="scale-your-skills-horizontally">Scale your skills horizontally</h3>
+<p>If you live in a small country, like me, I suggest you should scale your IT skills horizontally.</p>
+<p>Small country usually has more small-medium enterprises(SME), and SME needs employees can do everything. The most important thing to SME is surviving, so do we.</p>
+<p>If you are a front-end developer, then study some back-end skills to become a full-stack developer. If you are an IT supporter, maybe you can consider to learn some coding skills.</p>
+<blockquote>
+<p>The battle is not only about the pandemic, but also the economic recovering. We will win this battle, the question is when.</p>
+</blockquote>
 ]]></content>
     </entry>
 </feed>
